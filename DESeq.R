@@ -17,6 +17,8 @@ res <- results(dds, contrast=c("condition", "Untreated", "Treated"))
 resSig <- subset(res, padj < 0.5)
 summary(resSig)
 
+saveRDS(resSig, file = "data/DESeq-res.rds")
+
 library(EnhancedVolcano)
 EnhancedVolcano(resSig,
 		lab = rownames(resSig),
