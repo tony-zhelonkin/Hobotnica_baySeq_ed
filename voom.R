@@ -7,10 +7,10 @@ library("SummarizedExperiment")
 
 gse <- readRDS(file = "data/matrix.rds")
 coldata <- readRDS(file = "data/coldata.rds")
+condition <- coldata$condition
+
 library("edgeR")
 library("limma")
-
-condition <- coldata$condition
 
 d <- makeDGEList(gse)
 
