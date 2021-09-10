@@ -1,6 +1,12 @@
-install.packages(c('doParallel', 'ggplot2'), dependencies = TRUE)
+install.packages(c('tidyverse', 'hexbin', 'doParallel', 'ggplot2', 'ggbeeswarm', 'ggrepel'), dependencies = TRUE)
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
 BiocManager::install("DESeq2")
 BiocManager::install("tximeta")
+BiocManager::install("devtools")
+BiocManager::install("SummarizedExperiment")
+BiocManager::install("vsn")
+BiocManager::install("ggalt")
+BiocManager::install("ggrastr")
+BiocManager::install("EnhancedVolcano")
