@@ -4,16 +4,16 @@ library("dplyr")
 library("tximeta")
 library("SummarizedExperiment")
 
-gse <- readRDS(file = "matrix.rds")
+gse <- readRDS(file = "data/matrix.rds")
 library("DESeq2")
-dds <- DESeqDataSet(gse, design = ~conditions_dexamethasone)
+dds <- DESeqDataSet(gse, design = ~condition)
 
 #calculate diff expression
 dds <- DESeq(dds)
 res <- results(dds)
-res <- lfcShrink(dds, contrast=c("conditions_dexamethasone", "Untreated", "Treated"),
+res <- lfcShrink(dds, contrast=c("condition", "Untreated", "Treated"),
                  res=res, type='normal')
-res <- results(dds, contrast=c("conditions_dexamethasone", "Untreated", "Treated"))
+res <- results(dds, contrast=c("condition", "Untreated", "Treated"))
 resSig <- subset(res, padj < 0.5)
 summary(resSig)
 
