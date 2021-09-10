@@ -11,8 +11,3 @@ condition<- c("Untreated", "Treated", "Untreated", "Treated", "Untreated", "Trea
 coldata <- data.frame(names = names, condition = condition, stringsAsFactors=FALSE)
 saveRDS(coldata, file = "coldata.rds")
 
-conditionOption1 <- "conditionUntreated"
-conditionOption2 <- "conditionTreated"
-conditions <- data.frame (option1 = conditionOption1, option2 = conditionOption2)
-saveRDS(conditions, file = "conditions.rds")
-
