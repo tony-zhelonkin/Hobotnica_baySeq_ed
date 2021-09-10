@@ -1,30 +1,11 @@
-#Find data
-sample_name <- "SRR1039"
-location <- paste("quants/", sample_name, sep = "", collapse = "")
-
-#Create data array
-names <- c()
-files <- c()
-conditions <- c()
-cell_line <- c()
-for (i in "508":"523") {
-    names <- c(names, paste(sample_name, i, sep = "", collapse = ""))
-    files <- c(files, paste(location, i, "_quant/quant.sf", sep = "", collapse = ""))
-}
-conditions_dexamethasone <- c(conditions, "Untreated", "Treated", "Untreated", "Treated", "Untreated", "Treated", "Untreated", "Treated", "Untreated", "Treated", "Untreated", "Treated", "Untreated", "Treated", "Untreated", "Treated")
-conditions_albuterol <- c(conditions, "Untreated", "Untreated", "Treated", "Treated", "Untreated", "Untreated", "Treated", "Treated", "Untreated", "Untreated", "Treated", "Treated", "Untreated", "Untreated", "Treated", "Treated")
-cell_line <- c(cell_line, "N61311", "N61311", "N61311", "N61311", "N052611", "N052611", "N052611", "N052611", "N080611", "N080611", "N080611", "N080611", "N061011", "N061011", "N061011", "N061011")
-coldata <- data.frame(names = names, files = files, conditions_dexamethasone = conditions_dexamethasone, conditions_albuterol = conditions_albuterol, cell_line = cell_line, stringsAsFactors=FALSE)
-coldata
-
-
-#use tximeta
 library("BiocManager")
 library("dplyr")
 library("tximeta")
 library("SummarizedExperiment")
 
-gse <- readRDS(file = "matrix.rds")
+gse <- readRDS(file = "data/matrix.rds")
+coldata <- readRDS(file = "data/coldata.rds")
+condition <- coldata$condition
 
 library("edgeR")
 
@@ -42,7 +23,7 @@ dgList <- calcNormFactors(dgList, method="TMM")
 
 
 #calculate diff expression
-design <- model.matrix(~conditions_dexamethasone, data = coldata)
+design <- model.matrix(~condition, data = coldata)
 
 dgList <- estimateGLMCommonDisp(dgList, design=design)
 
