@@ -37,6 +37,8 @@ head(res, 15)
 resSig <- res$table
 summary(resSig)
 #resSig <- subset(resSig, PValue < 0.5)
+saveRDS(resSig, file = "data/edgeR-res.rds")
+
 
 library(EnhancedVolcano)
 EnhancedVolcano(resSig,
