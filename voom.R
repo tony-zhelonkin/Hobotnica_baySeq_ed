@@ -29,6 +29,7 @@ res <- topTable(fit2, sort.by = "P", n = Inf)
 head(res, 20)
 
 resSig <- subset(res, adj.P.Val < 0.5)
+saveRDS(resSig, file = "data/voom-res.rds")
 
 library(EnhancedVolcano)
 EnhancedVolcano(resSig,
