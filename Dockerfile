@@ -6,4 +6,4 @@ RUN Rscript install.R
 COPY hobotnica/ .
 RUN cd hobotnica && R CMD INSTALL --no-multiarch --with-keep.source .
 
-ENTRYPOINT ["/bin/bash"]
+COPY run.R .
