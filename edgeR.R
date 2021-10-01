@@ -3,13 +3,18 @@ library("dplyr")
 library("tximeta")
 library("SummarizedExperiment")
 
-gse <- readRDS(file = "data/matrix.rds")
-coldata <- readRDS(file = "data/coldata.rds")
+counts<- read.table(file="data/TCGA_prostate_countmatrix.txt", header = TRUE, sep = ",", dec = ".")
+gene_names <- counts$X
+counts <- counts[,-c(1)]
+rownames(counts) <- gene_names
+coldata <- read.table(file="data/annotation_TCGA_prostate.txt", sep = ",", dec = ".")
+colnames(coldata) <- c("names", "condition")
+coldata <- coldata[-c(1), ]
 condition <- coldata$condition
 
 library("edgeR")
 
-dgList <- makeDGEList(gse)
+dgList <- DGEList(counts)
 
 #filtering
 countsPerMillion <- cpm(dgList)

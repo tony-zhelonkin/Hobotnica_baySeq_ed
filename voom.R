@@ -5,14 +5,20 @@ library("dplyr")
 library("tximeta")
 library("SummarizedExperiment")
 
-gse <- readRDS(file = "data/matrix.rds")
-coldata <- readRDS(file = "data/coldata.rds")
+counts<- read.table(file="data/TCGA_prostate_countmatrix.txt", header = TRUE, sep = ",", dec = ".")
+gene_names <- counts$X
+counts <- counts[,-c(1)]
+rownames(counts) <- gene_names
+coldata <- read.table(file="data/annotation_TCGA_prostate.txt", sep = ",", dec = ".")
+colnames(coldata) <- c("names", "condition")
+coldata <- coldata[-c(1), ]
 condition <- coldata$condition
+
 
 library("edgeR")
 library("limma")
 
-d <- makeDGEList(gse)
+d <- DGEList(counts)
 
 #calculate diff expression
 design <- model.matrix(~condition + 0, data = coldata)
@@ -21,8 +27,14 @@ cat ("VOOMED\n")
 fit <- lmFit(y, design)
 head(coef(fit))
 
-contrasts <- makeContrasts(conditionUntreated - conditionTreated, levels = colnames(coef(fit)))
+
+contrast <- c(unique(coldata[c("condition")])$condition[1], unique(coldata[c("condition")])$condition[2])
+contrast[1] <- paste("condition", contrast[1], sep="")
+contrast[2] <- paste("condition", contrast[2], sep="")
+contrast <- paste(contrast[1], " - ", contrast[2])
+contrasts <- makeContrasts(contrast, levels = colnames(coef(fit)))
 contrasts
+
 fit2 <- contrasts.fit(fit, contrasts)
 fit2 <- eBayes(fit2, trend=TRUE)
 res <- topTable(fit2, sort.by = "P", n = Inf)

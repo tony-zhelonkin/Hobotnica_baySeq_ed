@@ -2,22 +2,20 @@ library("BiocManager")
 library("dplyr")
 library("tximeta")
 library("SummarizedExperiment")
-
 library("EBSeq")
-gse <- readRDS(file = "data/matrix.rds")
-coldata <- readRDS(file = "data/coldata.rds")
+
+counts<- read.table(file="data/TCGA_prostate_countmatrix.txt", header = TRUE, sep = ",", dec = ".")
+gene_names <- counts$X
+counts <- counts[,-c(1)]
+rownames(counts) <- gene_names
+coldata <- read.table(file="data/annotation_TCGA_prostate.txt", sep = ",", dec = ".")
+colnames(coldata) <- c("names", "condition")
+coldata <- coldata[-c(1), ]
 condition <- coldata$condition
-GeneMat <- assays(gse)$counts
 
-cat ("ROWS\n")
-ncol(GeneMat)
-head(GeneMat, 10)
-as.factor(condition)
+Sizes = MedianNorm(as.matrix(counts))
 
-#data(GeneMat)
-#str(GeneMat)
-Sizes = MedianNorm(GeneMat)
-EBOut = EBTest(Data = GeneMat,
+EBOut = EBTest(Data = as.matrix(counts),
     Conditions = as.factor(condition),
     sizeFactors = Sizes, maxround = 5)
 saveRDS(EBOut, file = "data/EBSeq-res.rds")
@@ -28,11 +26,9 @@ res <- Out$PPMat
 head(res)
 cat ("EBSeqed\n")
 
-#Out
+#Visualize
 library("EnhancedVolcano")
 GeneFC <- PostFC(EBOut, SmallNum = 0.01)
-#heatmap.2(NormalizedMatrix[GenesOfInterest,], scale=”row”, trace=”none”, Colv=F)
-
 x = log2(GeneFC$RealFC)
 y = EBOut$PPDE
 # Create dataframe with groups
@@ -40,9 +36,9 @@ xcond = 2
 ycond = 0.7
 group <- ifelse((x < -xcond | x > xcond) & y > ycond , "DE", ifelse(y > ycond , "ADE2", ifelse((x < -xcond | x > xcond), "ADE1", "NDE")))
 df <- data.frame(x = x, y = y, group = factor(group))
-
 # Change group colors
 colors <- c("red", "blue", "green", "gray")
+#Plotting
 plot(df$x, df$y, col = colors[df$group], pch = 16,
     xlim =c(-5,5),
     ylim=c(0,1),
