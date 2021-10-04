@@ -12,6 +12,9 @@ colnames(postfc) <- c("PostFC")
 top <- head(postfc[order(postfc$PostFC, decreasing = TRUE), , drop = FALSE], 20)
 tmp <- gsub("\\..*","",row.names(top))
 
+# writing top-20 genes with original (ENSEMBL) encoding
+writeLines(tmp, "data/EBSeq-top-ensembl.txt")
+
 #performing symbol annotation of top-20 genes 
 mart <- useMart("ENSEMBL_MART_ENSEMBL")
 mart <- useDataset("hsapiens_gene_ensembl", mart)
