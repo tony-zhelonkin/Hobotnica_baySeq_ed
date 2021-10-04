@@ -2,7 +2,7 @@ library("edgeR")
 library("biomaRt")
 
 #extracting results of analysis
-results <- readRDS(file = "/home/mashkova/differential-expression/data/voom-res.rds")
+results <- readRDS(file = "data/voom-res.rds")
 
 #filtering results by logFC > 1 or logFC < -1
 filtered_results <- results[abs(results$logFC) > 1, ]
@@ -20,4 +20,4 @@ top_genes <- annot[annot$external_gene_name != "", ]$external_gene_name
 top_genes
 
 #writing results to file
-writeLines(top_genes, "/home/mashkova/differential-expression/data/voom-top.txt")
+writeLines(top_genes, "data/voom-top.txt")
