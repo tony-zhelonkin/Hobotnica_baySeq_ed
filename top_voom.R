@@ -11,6 +11,9 @@ filtered_results <- results[abs(results$logFC) > 1, ]
 top <- head(filtered_results[order(filtered_results$P.Value), ], 20)
 tmp <- gsub("\\..*","",row.names(top))
 
+# writing top-20 genes with original (ENSEMBL) encoding
+writeLines(tmp, "data/voom-top-ensembl.txt")
+
 #performing symbol annotation of top-20 genes 
 mart <- useMart("ENSEMBL_MART_ENSEMBL")
 mart <- useDataset("hsapiens_gene_ensembl", mart)
