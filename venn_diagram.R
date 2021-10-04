@@ -21,17 +21,16 @@ draw_venn_diag <- function(top_edgeR, top_DeSeq2, top_VoomLimma, top_EBSeq) {
     cat.default.pos = "outer",
     cat.fontfamily = "sans",
     #cat.pos = c(0, -30, -130, 150),
-    #filename = NULL
-    filename = "data/venn_diag.png"
+    filename = NULL
   )
   grid.draw(venn_obj)
 }
 
 # read top-20 differentially expressed genes from files
-top_edgeR <- as.vector(unlist(read.delim(file = "data/edgeR-top.txt", header = FALSE)))
-top_DeSeq2 <- as.vector(unlist(read.delim(file = "data/DESeq-top.txt", header = FALSE)))
-top_VoomLimma <- as.vector(unlist(read.delim(file = "data/voom-top.txt", header = FALSE)))
-top_EBSeq <- as.vector(unlist(read.delim(file = "data/EBSeq-top.txt", header = FALSE)))
+top_edgeR <- as.vector(unlist(read.delim(file = "data/edgeR-top-ensembl.txt", header = FALSE)))
+top_DeSeq2 <- as.vector(unlist(read.delim(file = "data/DESeq-top-ensembl.txt", header = FALSE)))
+top_VoomLimma <- as.vector(unlist(read.delim(file = "data/voom-top-ensembl.txt", header = FALSE)))
+top_EBSeq <- as.vector(unlist(read.delim(file = "data/EBSeq-top-ensembl.txt", header = FALSE)))
 
 # draw a Venn diagram
 draw_venn_diag(top_edgeR, top_DeSeq2, top_VoomLimma, top_EBSeq)
