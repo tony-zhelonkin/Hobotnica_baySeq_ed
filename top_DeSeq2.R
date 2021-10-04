@@ -11,6 +11,9 @@ filtered_results <- results[abs(results$log2FoldChange) > 1, ]
 top <- head(filtered_results[order(filtered_results$pvalue), ], 20)
 tmp <- gsub("\\..*","",row.names(top))
 
+# writing top-20 genes with original (ENSEMBL) encoding
+writeLines(tmp, "data/DESeq-top-ensembl.txt")
+
 #performing symbol annotation of top-20 genes 
 mart <- useMart("ENSEMBL_MART_ENSEMBL")
 mart <- useDataset("hsapiens_gene_ensembl", mart)
