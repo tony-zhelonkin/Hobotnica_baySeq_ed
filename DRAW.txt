@@ -1,0 +1,17 @@
+library(logging)
+# Import functions from modules
+import::from(DESeq.R, deseq2_f, deseq2_v)
+import::from(EBSeq.R, ebseq_f, ebseq_v)
+import::from(edgeR.R, edger_f, edger_v)
+import::from(voom.R, voom_f, voom_v)
+
+deseq2_res <- readRDS(file = "data/DESeq_res.rds")
+ebseq_res <- readRDS(file = "data/EBSeq_res.rds")
+edger_res <- readRDS(file = "data/edgeR_res.rds")
+voom_res <- readRDS(file = "data/voom_res.rds")
+
+loginfo('Visualize results')
+deseq2_v(deseq2_res)
+ebseq_v(ebseq_res)
+edger_v(edger_res)
+voom_v(voom_res)
