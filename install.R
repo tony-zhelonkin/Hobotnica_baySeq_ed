@@ -1,4 +1,4 @@
-install.packages(c('tidyverse', 'hexbin', 'doParallel', 'ggplot2', 'ggbeeswarm', 'ggrepel', 'import', 'logging'), dependencies = TRUE)
+install.packages(c('tidyverse', 'hexbin', 'doParallel', 'ggplot2', 'ggbeeswarm', 'ggrepel', 'import', 'logging', 'amap'), dependencies = TRUE)
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
@@ -13,3 +13,6 @@ BiocManager::install("EnhancedVolcano")
 BiocManager::install("edgeR")
 BiocManager::install("limma")
 BiocManager::install("EBSeq")
+BiocManager::install("biomaRt")
+BiocManager::install("VennDiagram")
+BiocManager::install("RColorBrewer")
