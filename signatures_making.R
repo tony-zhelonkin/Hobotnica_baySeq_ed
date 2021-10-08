@@ -21,9 +21,11 @@ top_signature <- function(results_deseq2, results_ebseq, results_edger, results_
 # this function saves to file a Venn diagram based on top-20 differentially expressed
 # genes extracted from edgeR, DeSeq2, voom+limma & EBSeq instruments
 draw_venn_diag <- function(top_edgeR, top_DeSeq2, top_VoomLimma, top_EBSeq) {
-    library("VennDiagram")
-    library("RColorBrewer")
+    import::here(venn.diagram, .from = VennDiagram)
+    import::here(brewer.pal, .from = RColorBrewer)
+    import::here(grid.newpage, grid.draw, .from = grid)
     myCol <- brewer.pal(4, "Pastel2")
+    pdf("data/venn_diagram.pdf")
     grid.newpage()
     venn_obj <- venn.diagram(
     x = list(top_edgeR, top_DeSeq2, top_VoomLimma, top_EBSeq),
