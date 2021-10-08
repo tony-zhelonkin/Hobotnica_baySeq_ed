@@ -38,4 +38,4 @@ noiseq_data <- readData(data = counts, factors = factors)
 
 head(noiseq_data)
 # Calculate diff expression
-#noiseq_res <- noiseq(noiseq_data, factor = condition)
+noiseq_res <- noiseq(noiseq_data, factor = condition)
