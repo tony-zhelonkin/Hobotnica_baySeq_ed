@@ -55,3 +55,20 @@ edger_v <- function(edger_res) {
             title = "edgeR results",
             subtitle = "Differential expression")
 }
+
+# Make a signature of top-20 genes
+edger_top <- function(results) {
+    library("edgeR")
+    library("biomaRt")
+
+    # Filter results by logFC > 1 or logFC < -1
+    filtered_results <- results[abs(results$logFC) > 1, ]
+
+    # Extract top-20 differentially expressed genes ordered by p-value
+    top <- head(filtered_results[order(filtered_results$PValue), ], 20)
+    tmp <- gsub("\\..*","",row.names(top))
+
+    # Write top-20 genes with original (ENSEMBL) encoding
+    return(tmp)
+
+}

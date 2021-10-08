@@ -40,6 +40,7 @@ voom_f <- function(counts, coldata) {
 
 # Visualize function
 voom_v <- function(voom_res) {
+    # Import libraries
     library(BiocManager)
     library(dplyr)
     library(tximeta)
@@ -47,6 +48,8 @@ voom_v <- function(voom_res) {
     library(edgeR)
     library(limma)
     library(EnhancedVolcano)
+
+    #Plot
     pdf("data/voom_plot.pdf")
     EnhancedVolcano(voom_res,
             lab = rownames(voom_res),
@@ -56,4 +59,25 @@ voom_v <- function(voom_res) {
             FCcutoff = 1.5,
             title = "limma-voom results",
             subtitle = "Differential expression")
+}
+
+# Make a signature of top-20 genes
+voom_top <- function(results) {
+    # Import libraries
+    library("edgeR")
+    library("biomaRt")
+
+    # Extract results of analysis
+    results <- readRDS(file = "data/voom_res.rds")
+
+    # Filter results by logFC > 1 or logFC < -1
+    filtered_results <- results[abs(results$logFC) > 1, ]
+
+    # Extract top-20 differentially expressed genes ordered by p-value
+    top <- head(filtered_results[order(filtered_results$P.Value), ], 20)
+    tmp <- gsub("\\..*","",row.names(top))
+
+    # Write top-20 genes with original (ENSEMBL) encoding
+    return(tmp)
+
 }

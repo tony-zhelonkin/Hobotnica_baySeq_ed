@@ -46,3 +46,20 @@ deseq2_v <- function(deseq2_res) {
             title = "DESeq2 results",
             subtitle = "Differential expression")
 }
+
+# Make a signature of top-20 genes
+deseq2_top <- function(results) {
+    library("DESeq2")
+    library("biomaRt")
+
+    # Filter results by logFC > 1 or logFC < -1
+    filtered_results <- results[!is.na(results$log2FoldChange) > 0 && abs(results$log2FoldChange) > 0.25, ]
+
+    # Extract top-20 differentially expressed genes ordered by p-value
+    top <- head(filtered_results[order(filtered_results$pvalue), ], 20)
+    tmp <- gsub("\\..*","",row.names(top))
+
+    # Write top-20 genes with original (ENSEMBL) encoding
+    return(tmp)
+
+}

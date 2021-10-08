@@ -57,3 +57,24 @@ ebseq_v <- function(ebseq_res) {
          cex = 0.6, pos = 4, col = "black")
     dev.off()
 }
+
+# Make a signature of top-20 genes
+ebseq_top <- function(results) {
+    library("EBSeq")
+    library("biomaRt")
+
+    # Extract results of analysis
+    ppmat = GetDEResults(results)$PPMat
+    GeneFC <- PostFC(results, SmallNum = 0.01)
+    postfc <- as.data.frame(GeneFC$PostFC)
+    colnames(postfc) <- c("PostFC")
+
+    # Extract top-20 differentially expressed genes ordered by PostFC
+    top <- head(postfc[order(postfc$PostFC, decreasing = TRUE), , drop = FALSE], 20)
+    tmp <- gsub("\\..*","",row.names(top))
+
+    # Write top-20 genes with original (ENSEMBL) encoding
+    return(tmp)
+
+
+}
