@@ -9,6 +9,6 @@ ebseq_filtered <- function(filename) {
   ppde <- ppde[ppde >= 0.95]
   ppde <- as.data.frame(ppde)
   colnames(ppde) <- c("PPDE")
-  res <- gsub("\\..*","",row.names(ppde))
-  return(res)
+  filtered_genes <- gsub("\\..*","",row.names(ppde))
+  return(filtered_genes)
 }
