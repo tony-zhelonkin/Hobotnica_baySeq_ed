@@ -5,7 +5,7 @@ deseq2_filtered <- function(filename) {
   
   # filtering results by log2FC >= 2 and p-value < 0.05
   filtered_results <- results[abs(results$log2FoldChange) >= 2 && results$pvalue < 0.05, ]
-  
-  return(filtered_results)
+  filtered_genes <- gsub("\\..*","",row.names(filtered_results))
+  return(filtered_genes)
 }
 
