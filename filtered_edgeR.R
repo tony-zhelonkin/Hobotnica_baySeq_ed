@@ -5,6 +5,6 @@ edger_filtered <- function(filename) {
   
   # filtering results by log2FC >= 2 and p-value < 0.05
   filtered_results <- results[abs(results$logFC) >= 2 && results$PValue < 0.05, ]
-  
-  return(filtered_results)
+  res <- gsub("\\..*","",row.names(filtered_results))
+  return(res)
 }
