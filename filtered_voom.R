@@ -5,6 +5,6 @@ voom_filtered <- function(filename) {
   
   # filtering results by log2FC >= 2 and p-value < 0.05
   filtered_results <- results[abs(results$logFC) >= 2 && results$P.Value < 0.05, ]
-  
-  return(filtered_results)
+  filtered_genes <- gsub("\\..*","",row.names(filtered_results))
+  return(filtered_genes)
 }
