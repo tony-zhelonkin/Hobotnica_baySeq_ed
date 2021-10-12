@@ -47,7 +47,7 @@ deseq2_v <- function(deseq2_res) {
             subtitle = "Differential expression")
 }
 
-# Make a signature of top-20 genes
+# Make a signature of top-n genes
 deseq2_top <- function(results, n) {
     library("DESeq2")
     library("biomaRt")
@@ -64,6 +64,7 @@ deseq2_top <- function(results, n) {
 
 }
 
+# Filter genes by logFC and p-value
 deseq2_filtered <- function(filename) {
   library("DESeq2")
   # reading results of diff. expression analysis from RDS file
