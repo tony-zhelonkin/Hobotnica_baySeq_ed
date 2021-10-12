@@ -1,55 +1,80 @@
-library("BiocManager")
-library("dplyr")
-library("tximeta")
-library("SummarizedExperiment")
+# Calculate diff expression analysis
+ebseq_f <- function(counts, coldata) {
+    # Import libraries
+    library(BiocManager)
+    library(dplyr)
+    library(tximeta)
+    library(SummarizedExperiment)
+    library(EBSeq)
 
-library("EBSeq")
-gse <- readRDS(file = "data/matrix.rds")
-coldata <- readRDS(file = "data/coldata.rds")
-condition <- coldata$condition
-GeneMat <- assays(gse)$counts
+    # Prepare data
+    condition <- coldata$condition
 
-cat ("ROWS\n")
-ncol(GeneMat)
-head(GeneMat, 10)
-as.factor(condition)
+    # Calculate diff expression
+    Sizes = MedianNorm(as.matrix(counts))
+    EBOut = EBTest(Data = as.matrix(counts),
+                    Conditions = as.factor(condition),
+                    sizeFactors = Sizes, maxround = 5)
+    Out = GetDEResults(EBOut)
+    res <- Out$PPMat
 
-#data(GeneMat)
-#str(GeneMat)
-Sizes = MedianNorm(GeneMat)
-EBOut = EBTest(Data = GeneMat,
-    Conditions = as.factor(condition),
-    sizeFactors = Sizes, maxround = 5)
-saveRDS(EBOut, file = "data/EBSeq-res.rds")
-Out = GetDEResults(EBOut)
+    # Summary for results
+    summary(res)
 
-res <- Out$PPMat
+    # Return results of diff expression analysis
+    return(EBOut)
+}
 
-head(res)
-cat ("EBSeqed\n")
+# Visualize function
+ebseq_v <- function(ebseq_res) {
+    library(BiocManager)
+    library(dplyr)
+    library(tximeta)
+    library(SummarizedExperiment)
+    library(EBSeq)
+    library(EnhancedVolcano)
+    res <- GetDEResults(ebseq_res)$PPMat
+    GeneFC <- PostFC(ebseq_res, SmallNum = 0.01)    # Create dataframe with groups
+    x = log2(GeneFC$RealFC)
+    y = ebseq_res$PPDE
 
-#Out
-library("EnhancedVolcano")
-GeneFC <- PostFC(EBOut, SmallNum = 0.01)
-#heatmap.2(NormalizedMatrix[GenesOfInterest,], scale=”row”, trace=”none”, Colv=F)
+    xcond = 2   # Change group colors
+    ycond = 0.7
+    group <- ifelse((x < -xcond | x > xcond) & y > ycond , "DE", ifelse(y > ycond , "ADE2", ifelse((x < -xcond | x > xcond), "ADE1", "NDE")))
+    df <- data.frame(x = x, y = y, group = factor(group))
+    colors <- c("red", "blue", "green", "gray")
 
-x = log2(GeneFC$RealFC)
-y = EBOut$PPDE
-# Create dataframe with groups
-xcond = 2
-ycond = 0.7
-group <- ifelse((x < -xcond | x > xcond) & y > ycond , "DE", ifelse(y > ycond , "ADE2", ifelse((x < -xcond | x > xcond), "ADE1", "NDE")))
-df <- data.frame(x = x, y = y, group = factor(group))
+    pdf("data/ebseq_plot.pdf")   # Make plot
+    plot(df$x, df$y, col = colors[df$group], pch = 16,
+        xlim =c(-5,5),
+        ylim=c(0,1),
+        main="EBSeq results",
+        xlab="EBSeq Log2 Fold Change", ylab="EBSeq PPDE")
+    DEgplots <- data.frame(x = ifelse((x < -xcond | x > xcond) & y > ycond, x, 0), y = ifelse((x < -xcond | x > xcond) & y > ycond , y, 0),
+        name = ifelse((x < -xcond | x > xcond) & y > ycond , rownames(res), ""))
+    text(DEgplots$x, DEgplots$y,
+         labels = DEgplots$name,
+         cex = 0.6, pos = 4, col = "black")
+    dev.off()
+}
 
-# Change group colors
-colors <- c("red", "blue", "green", "gray")
-plot(df$x, df$y, col = colors[df$group], pch = 16,
-    xlim =c(-5,5),
-    ylim=c(0,1),
-    main="EBSeq results",
-    xlab="EBSeq Log2 Fold Change", ylab="EBSeq PPDE")
-DEgplots <- data.frame(x = ifelse((x < -xcond | x > xcond) & y > ycond, x, 0), y = ifelse((x < -xcond | x > xcond) & y > ycond , y, 0),
-    name = ifelse((x < -xcond | x > xcond) & y > ycond , rownames(res), ""))
-text(DEgplots$x, DEgplots$y,
-     labels = DEgplots$name,
-     cex = 0.6, pos = 4, col = "black")
+# Make a signature of top-20 genes
+ebseq_top <- function(results) {
+    library("EBSeq")
+    library("biomaRt")
+
+    # Extract results of analysis
+    ppmat = GetDEResults(results)$PPMat
+    GeneFC <- PostFC(results, SmallNum = 0.01)
+    postfc <- as.data.frame(GeneFC$PostFC)
+    colnames(postfc) <- c("PostFC")
+
+    # Extract top-20 differentially expressed genes ordered by PostFC
+    top <- head(postfc[order(postfc$PostFC, decreasing = TRUE), , drop = FALSE], 20)
+    tmp <- gsub("\\..*","",row.names(top))
+
+    # Write top-20 genes with original (ENSEMBL) encoding
+    return(tmp)
+
+
+}
