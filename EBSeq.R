@@ -58,8 +58,8 @@ ebseq_v <- function(ebseq_res) {
     dev.off()
 }
 
-# Make a signature of top-20 genes
-ebseq_top <- function(results) {
+# Make a signature of top-n genes
+ebseq_top <- function(results, n) {
     library("EBSeq")
     library("biomaRt")
 
@@ -69,12 +69,28 @@ ebseq_top <- function(results) {
     postfc <- as.data.frame(GeneFC$PostFC)
     colnames(postfc) <- c("PostFC")
 
-    # Extract top-20 differentially expressed genes ordered by PostFC
-    top <- head(postfc[order(postfc$PostFC, decreasing = TRUE), , drop = FALSE], 20)
+    # Extract top-n differentially expressed genes ordered by PostFC
+    top <- head(postfc[order(postfc$PostFC, decreasing = TRUE), , drop = FALSE], n)
     tmp <- gsub("\\..*","",row.names(top))
 
-    # Write top-20 genes with original (ENSEMBL) encoding
+    # Write top-n genes with original (ENSEMBL) encoding
     return(tmp)
 
 
+}
+
+# Filter genes by PPDE
+ebseq_filtered <- function(filename) {
+    library("EBSeq")
+    
+    # reading results of diff. expression analysis from RDS file
+    results <- readRDS(file = filename)
+    
+    # filtering results by PPDE >= 0.95
+    ppde <- results$PPDE
+    ppde <- ppde[ppde >= 0.95]
+    ppde <- as.data.frame(ppde)
+    colnames(ppde) <- c("PPDE")
+    filtered_genes <- gsub("\\..*","",row.names(ppde))
+    return(filtered_genes)
 }

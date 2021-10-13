@@ -47,19 +47,31 @@ deseq2_v <- function(deseq2_res) {
             subtitle = "Differential expression")
 }
 
-# Make a signature of top-20 genes
-deseq2_top <- function(results) {
+# Make a signature of top-n genes
+deseq2_top <- function(results, n) {
     library("DESeq2")
     library("biomaRt")
 
     # Filter results by logFC > 1 or logFC < -1
     filtered_results <- results[!is.na(results$log2FoldChange) > 0 && abs(results$log2FoldChange) > 0.25, ]
 
-    # Extract top-20 differentially expressed genes ordered by p-value
-    top <- head(filtered_results[order(filtered_results$pvalue), ], 20)
+    # Extract top-n differentially expressed genes ordered by p-value
+    top <- head(filtered_results[order(filtered_results$pvalue), ], n)
     tmp <- gsub("\\..*","",row.names(top))
 
-    # Write top-20 genes with original (ENSEMBL) encoding
+    # Write top-n genes with original (ENSEMBL) encoding
     return(tmp)
 
+}
+
+# Filter genes by logFC and p-value
+deseq2_filtered <- function(filename) {
+  library("DESeq2")
+  # reading results of diff. expression analysis from RDS file
+  results <- readRDS(file = filename)
+  
+  # filtering results by log2FC >= 2 and p-value < 0.05
+  filtered_results <- results[abs(results$log2FoldChange) >= 2 && results$pvalue < 0.05, ]
+  filtered_genes <- gsub("\\..*","",row.names(filtered_results))
+  return(filtered_genes)
 }
