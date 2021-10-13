@@ -1,41 +1,42 @@
-# Logger config
-library(logging)
-basicConfig()
-loginfo('Start')
+# Calculate diff expression analysis
+noiseq_f <- function(counts, coldata) {
+    # Import libraries
+    library(BiocManager)
+    library(dplyr)
+    library(tximeta)
+    library(SummarizedExperiment)
+    library(NOISeq)
 
-# Load data
-cm_args <- commandArgs(trailingOnly = TRUE)
-count <- cm_args[1]
-cols <- cm_args[2]
-if (!file.exists(count)) {
-  stop("File ", count, " does not exists!")
+    # Prepare data
+    factors <- as.data.frame(coldata$condition)
+    colnames(factors) <- c("condition")
+    noiseq_data <- readData(data = counts, factors = factors)
+    head(noiseq_data)
+
+    # Calculate diff expression
+    noiseq_res <- noiseqbio(noiseq_data, factor = "condition")
+
+    # Summary for results
+    #summary(res)
+
+    # Return results of diff expression analysis
+    return(noiseq_res)
 }
-if (!file.exists(cols)) {
-  stop("File ", cols, " does not exists!")
+
+# Make a signature of top-n genes
+noiseq_top <- function(results, n) {
+    library("NOISeq")
+    library("biomaRt")
+
+    results <- degenes(results)
+    # Filter results by logFC > 1 or logFC < -1
+    filtered_results <- results[!is.na(results$log2FC) > 0 && abs(results$log2FC) > 1, ]
+
+    # Extract top-n differentially expressed genes ordered by p-value
+    top <- head(filtered_results[order(filtered_results$prob), ], n)
+    tmp <- gsub("\\..*","",row.names(top))
+
+    # Write top-n genes with original (ENSEMBL) encoding
+    return(tmp)
+
 }
-
-# Read count matrix table and correct its form
-counts<- read.table(file=count, header = TRUE, sep = ",", dec = ".")
-gene_names <- counts$X
-counts <- counts[,-c(1)]
-rownames(counts) <- gene_names
-
-# Read annotation and make table with useful form
-coldata <- read.table(file=cols, sep = ",", dec = ".")
-colnames(coldata) <- c("names", "condition")
-coldata <- coldata[-c(1), ]
-
-library(BiocManager)
-library(dplyr)
-library(tximeta)
-library(SummarizedExperiment)
-library(NOISeq)
-
-# Prepare data
-factors <- as.data.frame(coldata$condition)
-
-noiseq_data <- readData(data = counts, factors = factors)
-
-head(noiseq_data)
-# Calculate diff expression
-noiseq_res <- noiseq(noiseq_data, factor = condition)
