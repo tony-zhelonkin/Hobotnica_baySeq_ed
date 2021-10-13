@@ -17,6 +17,7 @@ calculate_distmatrix <- function(countMatrixFile, signatureFile) {
 
     # Save dist matrix
     write.csv(as.data.frame(as.matrix(distMatrix)), file=paste0(signatureFile, ".distmatrix"))
+
     return(0)
 }
 

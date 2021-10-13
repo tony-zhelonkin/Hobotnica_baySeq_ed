@@ -80,12 +80,9 @@ ebseq_top <- function(results, n) {
 }
 
 # Filter genes by PPDE
-ebseq_filtered <- function(filename) {
+ebseq_filtered <- function(results) {
     library("EBSeq")
-    
-    # reading results of diff. expression analysis from RDS file
-    results <- readRDS(file = filename)
-    
+
     # filtering results by PPDE >= 0.95
     ppde <- results$PPDE
     ppde <- ppde[ppde >= 0.95]

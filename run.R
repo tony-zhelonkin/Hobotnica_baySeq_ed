@@ -56,24 +56,15 @@ edger_v(edger_res)
 voom_v(voom_res)
 
 loginfo('Make signatures of differential expression analysis')
-source("signature_making_utils.R")
-# Load differential expression analysis results
-results_deseq2 <- readRDS(file = "data/DESeq_res.rds")
-results_ebseq <- readRDS(file = "data/EBSeq_res.rds")
-results_edger <- readRDS(file = "data/edgeR_res.rds")
-results_voom <- readRDS(file = "data/voom_res.rds")
+source("signatures_utils.R")
 
-top_signature(results_deseq2, results_ebseq, results_edger, results_voom)
+top_signature(deseq2_res, ebseq_res, edger_res, voom_res, 20)
 
 loginfo('Visualize signature crossing')
 # Read signatures from files
-sig_edgeR <- as.vector(unlist(read.delim(file = "data/edgeR_sig.txt", header = FALSE)))
-sig_DeSeq2 <- as.vector(unlist(read.delim(file = "data/DESeq_sig.txt", header = FALSE)))
-sig_VoomLimma <- as.vector(unlist(read.delim(file = "data/voom_sig.txt", header = FALSE)))
-sig_EBSeq <- as.vector(unlist(read.delim(file = "data/EBSeq_sig.txt", header = FALSE)))
 
 # Draw a Venn diagram
-draw_venn_diag(sig_edgeR, sig_DeSeq2, sig_VoomLimma, sig_EBSeq)
+draw_venn_diag()
 
 loginfo('Calculate dist matrixes for tools')
 # Calculate dist matrixes for tools
