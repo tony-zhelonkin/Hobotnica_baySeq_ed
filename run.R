@@ -31,11 +31,11 @@ loginfo(paste0('Coldata is in ', cols))
 
 # Run tools
 # Import functions from modules
-source("DESeq.R")
-source("EBSeq.R")
-source("edgeR.R")
-source("voom.R")
-source("NOISeq.R")
+source("source/DESeq.R")
+source("source/EBSeq.R")
+source("source/edgeR.R")
+source("source/voom.R")
+source("source/NOISeq.R")
 deseq2_res <- deseq2_f(counts, coldata)
 ebseq_res <- ebseq_f(counts, coldata)
 edger_res <- edger_f(counts, coldata)
@@ -59,7 +59,7 @@ voom_v(voom_res)
 noiseq_v(noiseq_res)
 
 loginfo('Make signatures of differential expression analysis')
-source("signatures_utils.R")
+source("source/signatures_utils.R")
 
 top_signature(deseq2_res, ebseq_res, edger_res, voom_res, noiseq_res, 30)
 
@@ -71,7 +71,7 @@ draw_venn_diag()
 
 loginfo('Calculate dist matrixes for tools')
 # Calculate dist matrixes for tools
-source("calculate_distmatrix_utils.R")
+source("source/calculate_distmatrix_utils.R")
 calculate_distmatrixes(count)
 
 loginfo('Ready for Hobotnica using')
