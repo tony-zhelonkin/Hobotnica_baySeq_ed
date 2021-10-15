@@ -118,18 +118,18 @@ data/TCGA_prostate_countmatrix.txt
 
 Contain functions related to a specific tool. 
 
-*\*\_f(counts, coldata)* - computes differential expression, where *count*
+***\*\_f(counts, coldata)*** - computes differential expression, where *count*
 is matrix of count and *coldata* is prepared for usage information about
 conditions.
 
-*\*\_v(\*\_res)* - visualizes differential expression. *\*\_res* - is a 
+***\*\_v(\*\_res)*** - visualizes differential expression. *\*\_res* - is a 
 result of differential expression analysis.
 
-*\*\_top(results, n)* - makes subset of top-n expressed genes. *results* 
+***\*\_top(results, n)*** - makes subset of top-n expressed genes. *results* 
 - is a result of differential expression analysis, *n* - is a number 
 of genes in top.
 
-*\*\_filtered(results)* - makes subset of filtered genes. *results* - is a
+***\*\_filtered(results)*** - makes subset of filtered genes. *results* - is a
 result of differential expression analysis. *Have a strange results, better
 not to use.*
 
@@ -137,17 +137,17 @@ not to use.*
 
 Contains functions for subset making.
 
-*top_signature(results_deseq2, results_ebseq, results_edger, results_voom,
-results_noiseq, n)* - makes **'\*_sig.txt'** files using top-n signature. 
+***top_signature(results_deseq2, results_ebseq, results_edger, results_voom,
+results_noiseq, n)*** - makes **'\*_sig.txt'** files using top-n signature. 
 Arguments are results of differential expression analysis and *n* - 
 number of genes in top.
 
-*filtered_signature(results_deseq2, results_ebseq, results_edger, 
-results_voom, results_noiseq)* - makes **'\*_sig.txt'** files using 
+***filtered_signature(results_deseq2, results_ebseq, results_edger, 
+results_voom, results_noiseq)*** - makes **'\*_sig.txt'** files using 
 filtering. Arguments are results of differential expression analysis. *Have
 a strange results, better not to use.*
 
-*draw_venn_diag()* - plots Venn diagram. Uses as constant that names:
+***draw_venn_diag()*** - plots Venn diagram. Uses as constant that names:
 **'DESeq_sig.txt.distmatrix'**, **'EBSeq_sig.txt.distmatrix'**, 
 **'edgeR_sig.txt.distmatrix'**, **'NOISeq_sig.txt.distmatrix'** and 
 **'voom_sig.txt.distmatrix'**. If one of the subset does not exist, 
@@ -157,13 +157,13 @@ skip it.
 
 Contains functions for distance matrix making.
 
-*calculate_distmatrix(countMatrixFile, signatureFile)* - makes 
+***calculate_distmatrix(countMatrixFile, signatureFile)*** - makes 
 **'\*_sig.txt.distmatrix'** from count matrix *countMatrixFile* and 
 subset *signatureFile*.
 
 *calculate_distmatrixes (countMatrixFile)* - makes all 
 **'\*_sig.txt.distmatrix'** files from from count matrix 
-*countMatrixFile*. Uses as constant that names: 
+***countMatrixFile***. Uses as constant that names: 
 **'DESeq_sig.txt.distmatrix'**, **'EBSeq_sig.txt.distmatrix'** , 
 **'edgeR_sig.txt.distmatrix'**, **'NOISeq_sig.txt.distmatrix'** and 
 **'voom_sig.txt.distmatrix'**.
