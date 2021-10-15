@@ -67,6 +67,19 @@ subsets. File name is **'venn_diagram.pdf'**.
 
 ---------------------------------------------------------------------------
 
+Quick start
+------------
+Type in command line this two commands:
+
+>**Rscript install.R**
+> 
+> **Rscript run.R countmatrix annotation** 
+
+Where **countmatrix** is matrix of un-normalized counts file name and 
+**annotation** is table of annotation file name
+
+-------------------------------------
+
 Source files description
 -----------------
 
@@ -168,6 +181,20 @@ subset *signatureFile*.
 **'edgeR_sig.txt.distmatrix'**, **'NOISeq_sig.txt.distmatrix'** and 
 **'voom_sig.txt.distmatrix'**.
 
+-------------------------------------------------------------------------
+
+Current problems
+----------------
+- ***draw_venn_diag()*** creates unuseful log file for every call.
+- A lot of unuseful information in output.
+- Informative value of **'NOISeq_plot.pdf'** and **'ebseq_plot.pdf'** is 
+questionable.
+- ***filtered_signature*** signature is unrepresentative. Perhaps every 
+tool has their own sensitiveness for logFC, p-value etc. 
+- ***noiseq_filtered*** need to be checked. It has some problems 
+with adding filters on Log2FC.
+- ***noiseq_top*** need to be checked. It doesn't have any log2FC checks. 
+- Dockerfile need to be updated
 
 
 
