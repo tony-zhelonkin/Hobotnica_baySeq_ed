@@ -28,5 +28,6 @@ calculate_distmatrixes <- function(countMatrixFile) {
     calculate_distmatrix (countMatrixFile, "data/EBSeq_sig.txt")
     calculate_distmatrix (countMatrixFile, "data/edgeR_sig.txt")
     calculate_distmatrix (countMatrixFile, "data/voom_sig.txt")
+    calculate_distmatrix (countMatrixFile, "data/NOISeq_sig.txt")
     return(0)
 }

@@ -1,31 +1,35 @@
 # Make a signature of top-n genes
-top_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, n) {
+top_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq, n) {
     # Import top-n creating functions
     import::here(deseq2_top, .from = DESeq.R)
     import::here(ebseq_top, .from = EBSeq.R)
     import::here(edger_top, .from = edgeR.R)
     import::here(voom_top, .from = voom.R)
+    import::here(noiseq_top, .from = NOISeq.R)
 
     #Download results of different tools
     writeLines(deseq2_top(results_deseq2, n), "data/DESeq_sig.txt")
     writeLines(ebseq_top(results_ebseq, n), "data/EBSeq_sig.txt")
     writeLines(edger_top(results_edger, n), "data/edgeR_sig.txt")
     writeLines(voom_top(results_voom, n), "data/voom_sig.txt")
+    writeLines(noiseq_top(results_noiseq, n), "data/NOISeq_sig.txt")
 }
 
 # Make a signature of filtered genes
-filtered_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom) {
+filtered_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq) {
     # Import filtered creating functions
     import::here(deseq2_filtered, .from = DESeq.R)
     import::here(ebseq_filtered, .from = EBSeq.R)
     import::here(edger_filtered, .from = edgeR.R)
     import::here(voom_filtered, .from = voom.R)
+    import::here(noiseq_filtered, .from = NOISeq.R)
 
     #Download results of different tools
     writeLines(deseq2_filtered(results_deseq2), "data/DESeq_sig.txt")
     writeLines(ebseq_filtered(results_ebseq), "data/EBSeq_sig.txt")
     writeLines(edger_filtered(results_edger), "data/edgeR_sig.txt")
     writeLines(voom_filtered(results_voom), "data/voom_sig.txt")
+    writeLines(noiseq_filtered(results_noiseq), "data/NOISeq_sig.txt")
 }
 
 
@@ -62,6 +66,13 @@ draw_venn_diag <- function() {
     } else {
         sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = "data/EBSeq_sig.txt", header = FALSE)))
         sig_names <- c(sig_names, "EBSeq")
+        number_of_elem <- number_of_elem + 1
+    }
+    if (file.info("data/NOISeq_sig.txt")$size == 0) {
+        cat('There is no gene in NOISeq for that signature\n')
+    } else {
+        sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = "data/NOISeq_sig.txt", header = FALSE)))
+        sig_names <- c(sig_names, "NOISeq")
         number_of_elem <- number_of_elem + 1
     }
 

@@ -10,9 +10,10 @@ results_deseq2 <- readRDS(file = "data/DESeq_res.rds")
 results_ebseq <- readRDS(file = "data/EBSeq_res.rds")
 results_edger <- readRDS(file = "data/edgeR_res.rds")
 results_voom <- readRDS(file = "data/voom_res.rds")
+results_noiseq <- readRDS(file = "data/NOISeq_res.rds")
 
-top_signature(results_deseq2, results_ebseq, results_edger, results_voom, 1000)
-#filtered_signature(results_deseq2, results_ebseq, results_edger, results_voom)
+top_signature(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq, 30)
+#filtered_signature(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq)
 
 loginfo('Visualize results')
 
