@@ -187,6 +187,7 @@ Current problems
 ----------------
 - ***draw_venn_diag()*** creates unuseful log file for every call.
 - A lot of unuseful information in output.
+- Names of tools are out of border in **'venn_diagram.pdf'**
 - Informative value of **'NOISeq_plot.pdf'** and **'ebseq_plot.pdf'** is 
 questionable.
 - ***filtered_signature*** signature is unrepresentative. Perhaps every 
