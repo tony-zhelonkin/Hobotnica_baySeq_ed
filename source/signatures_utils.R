@@ -36,6 +36,7 @@ filtered_signature <- function(results_deseq2, results_ebseq, results_edger, res
 # this function saves to file a Venn diagram based on signature of differentially expressed
 # genes extracted from edgeR, DeSeq2, voom+limma & EBSeq instruments
 draw_venn_diag <- function() {
+    library(futile.logger)
     # Download results of signature making. Check on zero length subsets
     sig_vis <- list()
     sig_names <- c()
@@ -84,6 +85,7 @@ draw_venn_diag <- function() {
 
     pdf("data/venn_diagram.pdf")
     grid.newpage()
+    futile.logger::flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
     venn_obj <- venn.diagram(
     x = sig_vis,
     category.names = sig_names,
@@ -98,7 +100,7 @@ draw_venn_diag <- function() {
     cat.fontface = "bold",
     cat.default.pos = "outer",
     cat.fontfamily = "sans",
-    #cat.pos = c(0, -30, -130, 150),
+    cat.pos = c(0, -30, -130, 150, 30),
     filename = NULL
     )
     grid.draw(venn_obj)
