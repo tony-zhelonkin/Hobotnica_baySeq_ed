@@ -34,7 +34,7 @@ filtered_signature <- function(results_deseq2, results_ebseq, results_edger, res
 
 
 # this function saves to file a Venn diagram based on signature of differentially expressed
-# genes extracted from edgeR, DeSeq2, voom+limma & EBSeq instruments
+# genes extracted from edgeR, DeSeq2, voom+limma, EBSeq & NOISeq instruments
 draw_venn_diag <- function() {
     library(futile.logger)
     # Download results of signature making. Check on zero length subsets
@@ -81,11 +81,28 @@ draw_venn_diag <- function() {
     import::here(venn.diagram, .from = VennDiagram)
     import::here(brewer.pal, .from = RColorBrewer)
     import::here(grid.newpage, grid.draw, .from = grid)
-    myCol <- brewer.pal(number_of_elem, "Pastel2")
+    if (number_of_elem >= 3) {
+        myCol <- brewer.pal(number_of_elem, "Pastel2")   
+    } else if (number_of_elem == 2) {
+        myCol <- c("#B3E2CD", "#FDCDAC")
+    } else if (number_of_elem == 1) {
+        myCol <- c("#CBD5E8")
+    }
 
     pdf("data/venn_diagram.pdf")
     grid.newpage()
     futile.logger::flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
+    if (number_of_elem == 5) {
+        pos_ = c(0, -30, -130, 130, 30)
+    } else if (number_of_elem == 4) {
+        pos_ = c(-15, 15, 0, 0)
+    } else if (number_of_elem == 3) {
+        pos_ = c(-40, 40, 180)
+    } else if (number_of_elem == 2) {
+        pos_ = c(-50, 50)
+    } else {
+        pos_ = c(0)
+    }
     venn_obj <- venn.diagram(
     x = sig_vis,
     category.names = sig_names,
@@ -100,7 +117,7 @@ draw_venn_diag <- function() {
     cat.fontface = "bold",
     cat.default.pos = "outer",
     cat.fontfamily = "sans",
-    cat.pos = c(0, -30, -130, 150, 30),
+    cat.pos = pos_,
     filename = NULL
     )
     grid.draw(venn_obj)
