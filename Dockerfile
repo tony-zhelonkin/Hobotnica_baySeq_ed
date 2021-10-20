@@ -1,13 +1,15 @@
 FROM docker.io/bioconductor/bioconductor_docker:RELEASE_3_13
 
 COPY install.R .
+COPY run.R .
+RUN mkdir source
+COPY source/ /source
+RUN mkdir hobotnica
+COPY hobotnica/ /hobotnica
+RUN mkdir data
+
 RUN Rscript install.R
 
-COPY source/ .
-COPY hobotnica/ .
-COPY run.R .
 
-
-#RUN cd hobotnica && R CMD INSTALL --no-multiarch --with-keep.source .
 
 

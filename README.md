@@ -69,14 +69,41 @@ subsets. File name is **'venn_diagram.pdf'**.
 
 Quick start
 ------------
-Type in command line this two commands:
+Download repository and change to the directory where this repository 
+is stored. There are to ways to run program.
+- **From your computer**
 
->**Rscript install.R**
+Type in command line this commands:
+
+> **$ Rscript install.R**
 > 
-> **Rscript run.R countmatrix annotation** 
+> **$ Rscript run.R countmatrix annotation** 
 
 Where **countmatrix** is matrix of un-normalized counts file name and 
-**annotation** is table of annotation file name
+**annotation** is table of annotation file name.
+
+- **From Docker**
+
+Create an image **diffexprimage** and start container **de_container**
+(it automatically uses Dockerfile from repository):
+> **$ docker build -t diffexprimage .**
+> 
+> **$ docker run --name de_container diffexprimage echo "hello from docker"**
+>
+Copy your input data to container. **countmatrix.txt** is matrix of un-normalized counts file name and 
+**annotation.txt** is table of annotation file name.
+> 
+> **$ docker cp countmatrix.txt de_container:data/countmatrix.txt**
+> 
+> **$ docker cp annotation.txt de_container:data/annotation.txt**
+>
+Start work in container.
+> **$ docker start de_container**
+> 
+> **$ docker exec -it de_container /bin/bash**
+> 
+Start work with program from Docker container.
+> **/# Rscript run.R data/countmatrix.txt data/annotation.txt**
 
 -------------------------------------
 
@@ -187,8 +214,7 @@ Current problems
 ----------------
 - A lot of unuseful information in output.
 - ***filtered_signature*** signature is unrepresentative. Perhaps every 
-tool has their own sensitiveness for logFC, p-value etc. 
-- Dockerfile need to be updated
+tool has their own sensitiveness for logFC, p-value etc.
 
 
 
