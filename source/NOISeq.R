@@ -32,26 +32,24 @@ noiseq_v <- function(noiseq_res) {
     library(NOISeq)
     library(EnhancedVolcano)
     
+    # Built in graphic function
     # DE.plot(noiseq_res, q = 0.8, graphic = "MD")
   
     noiseq_res <- noiseq_res@results[[1]]
     x = noiseq_res$M
-    y = noiseq_res$prob
-
-    xcond = 6  # Change group colors
-    ycond = 0.90
-    group <- ifelse((x < -xcond | x > xcond) & y > ycond , "DE", ifelse(y > ycond , "ADE2", ifelse((x < -xcond | x > xcond), "ADE1", "NDE")))
+    y = noiseq_res$D
+    xycond = noiseq_res$prob
+    group <- ifelse(xycond > 0.8, "DE", "NDE")
     df <- data.frame(x = x, y = y, group = factor(group))
-    colors <- c("red", "blue", "green", "gray")
+    colors <- c("red", "gray")
 
     pdf("data/noiseq_plot.pdf")   # Make plot
     plot(df$x, df$y, col = colors[df$group], pch = 16,
-        xlim = c(-10,10),
-        ylim = c(0,1),
+        ylim = c(0,10000),
         main="NOISeq results",
-        xlab="NOISeq M", ylab="NOISeq probability")
-    DEgplots <- data.frame(x = ifelse((x < -xcond | x > xcond) & y > ycond, x, 0), y = ifelse((x < -xcond | x > xcond) & y > ycond , y, 0),
-        name = ifelse((x < -xcond | x > xcond) & y > ycond , rownames(noiseq_res), ""))
+        xlab="M", ylab="D")
+    DEgplots <- data.frame(x = ifelse(xycond > 0.8, x, 0), y = ifelse(xycond > 0.8, y, 0),
+        name = ifelse(xycond > 0.8, rownames(noiseq_res), ""))
     text(DEgplots$x, DEgplots$y,
          labels = DEgplots$name,
          cex = 1.0, pos = 4, col = "black")
