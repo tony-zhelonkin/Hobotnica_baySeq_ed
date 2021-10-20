@@ -215,7 +215,7 @@ Current problems
 - A lot of unuseful information in output.
 - ***filtered_signature*** signature is unrepresentative. Perhaps every 
 tool has their own sensitiveness for logFC, p-value etc.
-- Interface for Hobotnica using need to be done.
+- Need to insert Hobotnica scoring functions and part of the pipeline description
 
 
 
