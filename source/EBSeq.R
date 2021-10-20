@@ -35,7 +35,7 @@ ebseq_v <- function(ebseq_res) {
     library(EnhancedVolcano)
     res <- GetDEResults(ebseq_res)$PPMat
     GeneFC <- PostFC(ebseq_res, SmallNum = 0.01)    # Create dataframe with groups
-    x = log2(GeneFC$RealFC)
+    x = log2(GeneFC$PostFC)
     y = ebseq_res$PPDE
 
     xcond = 2   # Change group colors

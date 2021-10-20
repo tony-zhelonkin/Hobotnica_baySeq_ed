@@ -31,7 +31,9 @@ noiseq_v <- function(noiseq_res) {
     library(SummarizedExperiment)
     library(NOISeq)
     library(EnhancedVolcano)
-
+    
+    # DE.plot(noiseq_res, q = 0.8, graphic = "MD")
+  
     noiseq_res <- noiseq_res@results[[1]]
     x = noiseq_res$M
     y = noiseq_res$prob
@@ -62,11 +64,10 @@ noiseq_top <- function(results, n) {
     library("NOISeq")
     library("biomaRt")
 
-    results <- results@results[[1]]
-    filtered_results <- results
-    # Filter results by logFC > 1 or logFC < -1
+    # Filter results by q threshold
+    filtered_results <- degenes(results, q = 0.8, M = NULL)
 
-    # Extract top-n differentially expressed genes ordered by p-value
+    # Extract top-n differentially expressed genes ordered by prob
     top <- head(filtered_results[order(filtered_results$prob, decreasing = TRUE), ], n)
     tmp <- gsub("\\..*","",row.names(top))
 
@@ -79,8 +80,8 @@ noiseq_top <- function(results, n) {
 noiseq_filtered <- function(results) {
   library("NOISeq")
 
-  # filtering results by probability > 0.9
-  filtered_results <- degenes(results)
+  # Filter results by q threshold
+  filtered_results <- degenes(results, q = 0.8, M = NULL)
   filtered_genes <- gsub("\\..*","",row.names(filtered_results))
   return(filtered_genes)
 }
