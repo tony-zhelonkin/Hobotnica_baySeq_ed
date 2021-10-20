@@ -75,3 +75,7 @@ source("source/calculate_distmatrix_utils.R")
 calculate_distmatrixes(count)
 
 loginfo('Ready for Hobotnica using')
+loginfo('Start scoring Hobotnica')
+source("source/hobotnica_using.R")
+use_hobotnica(coldata$condition)
+loginfo('Hobotnica scores are ready')
