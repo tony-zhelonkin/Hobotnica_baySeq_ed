@@ -12,7 +12,7 @@ General usage notes
 between two experimental conditions by 5 tools: DESeq, EBSeq, edgeR, 
 limma voom and NOISeq. 
 - Program also computes distance matrixes using different types of signatures,
-that can be used in Hobotnica to compare results and calculate the best 
+and uses it in Hobotnica to compare results and calculate the best 
 differential expression tool for input data. It also visualizes intersection 
 of subsets.
 
@@ -64,6 +64,9 @@ names are **'DESeq_sig.txt'**, **'EBSeq_sig.txt'**, **'edgeR_sig.txt'**,
 
 Program also plots Venn diagram that shows intersection of different tools 
 subsets. File name is **'venn_diagram.pdf'**.
+
+File **'hobotnica_scores.txt'** contains results of Hobotnica computing 
+for each tool.
 
 ---------------------------------------------------------------------------
 
@@ -201,10 +204,26 @@ Contains functions for distance matrix making.
 **'\*_sig.txt.distmatrix'** from count matrix *countMatrixFile* and 
 subset *signatureFile*.
 
-*calculate_distmatrixes (countMatrixFile)* - makes all 
+***calculate_distmatrixes (countMatrixFile)*** - makes all 
 **'\*_sig.txt.distmatrix'** files from from count matrix 
-***countMatrixFile***. Uses as constant that names: 
-**'DESeq_sig.txt.distmatrix'**, **'EBSeq_sig.txt.distmatrix'** , 
+*countMatrixFile*. Uses that file names to download data about subsets: 
+**'DESeq_sig.txt'**, **'EBSeq_sig.txt'** , 
+**'edgeR_sig.txt'**, **'NOISeq_sig.txt'** and 
+**'voom_sig.txt'**.
+
+ - **source/hobotnica_using.R**
+
+Contains functions for using Hobotnica tool.
+
+***calculate_hobotnica (distmat_filename, condition)*** - calculate 
+Hobotnica score for certain distance matrix *distmat_filename* and 
+list of conditions for each sample *condition*.
+
+***use_hobotnica (condition)*** - calculate 
+Hobotnica score for all tool's distance matrixes and 
+list of conditions for each sample *condition*. Uses that file names
+to download data about: **'DESeq_sig.txt.distmatrix'**, 
+**'EBSeq_sig.txt.distmatrix'** , 
 **'edgeR_sig.txt.distmatrix'**, **'NOISeq_sig.txt.distmatrix'** and 
 **'voom_sig.txt.distmatrix'**.
 
@@ -215,7 +234,7 @@ Current problems
 - A lot of unuseful information in output.
 - ***filtered_signature*** signature is unrepresentative. Perhaps every 
 tool has their own sensitiveness for logFC, p-value etc.
-- Need to insert Hobotnica scoring functions and part of the pipeline description
+- Download some other features.
 
 
 
