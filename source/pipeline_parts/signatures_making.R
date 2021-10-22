@@ -27,7 +27,6 @@ source("source/signatures_utils.R")
 
 # Logger config
 basicConfig()
-out <- 'data'
 loginfo('Make 5 signatures')
 # Load differential expression analysis results
 results_deseq2 <- readRDS(file = file.path(out, "DESeq_res.rds"))

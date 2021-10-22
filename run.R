@@ -24,6 +24,7 @@ if (!file.exists(out)) {
 }
 save_flag <- 0
 if (length(cm_args)  >= 4) {
+    option <- cm_args[4]
     if (option == "-s") {
         save_flag <- 1
     }
@@ -101,11 +102,11 @@ noiseq_distmat <- calculate_distmatrix (count, file.path(out, "NOISeq_sig.txt"))
 if (save_flag == 1) {
     # Save results of distance matrices
     loginfo('Save results')
-    write.csv(as.data.frame(as.matrix(deseq_distmat)), file="DESeq_sig.txt.distmatrix")
-    write.csv(as.data.frame(as.matrix(ebseq_distmat)), file="EBSeq_sig.txt.distmatrix")
-    write.csv(as.data.frame(as.matrix(edger_distmat)), file="edgeR_sig.txt.distmatrix")
-    write.csv(as.data.frame(as.matrix(voom_distmat)), file="voom_sig.txt.distmatrix")
-    write.csv(as.data.frame(as.matrix(noiseq_distmat)), file="NOISeq_sig.txt.distmatrix")
+    write.csv(as.data.frame(as.matrix(deseq_distmat)), file=file.path(out,"DESeq_sig.txt.distmatrix"))
+    write.csv(as.data.frame(as.matrix(ebseq_distmat)), file=file.path(out,"EBSeq_sig.txt.distmatrix"))
+    write.csv(as.data.frame(as.matrix(edger_distmat)), file=file.path(out,"edgeR_sig.txt.distmatrix"))
+    write.csv(as.data.frame(as.matrix(voom_distmat)), file=file.path(out,"voom_sig.txt.distmatrix"))
+    write.csv(as.data.frame(as.matrix(noiseq_distmat)), file=file.path(out,"NOISeq_sig.txt.distmatrix"))
 }
 
 
