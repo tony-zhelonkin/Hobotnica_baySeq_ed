@@ -29,14 +29,14 @@ deseq2_f <- function(counts, coldata) {
 }
 
 # Visualize function
-deseq2_v <- function(deseq2_res) {
+deseq2_v <- function(deseq2_res, out) {
     library(BiocManager)
     library(dplyr)
     library(tximeta)
     library(SummarizedExperiment)
     library(DESeq2)
     library(EnhancedVolcano)
-    pdf("data/deseq2_plot.pdf")
+    pdf(file.path(out, "deseq2_plot.pdf"))
     EnhancedVolcano(deseq2_res,
             lab = rownames(deseq2_res),
             x = 'log2FoldChange',
@@ -67,7 +67,7 @@ deseq2_top <- function(results, n) {
 # Filter genes by logFC and p-value
 deseq2_filtered <- function(results) {
   library("DESeq2")
-  
+
   # filtering results by log2FC >= 2 and p-value < 0.05
   filtered_results <- results[abs(results$log2FoldChange) >= 2 && results$pvalue < 0.05, ]
   filtered_genes <- gsub("\\..*","",row.names(filtered_results))

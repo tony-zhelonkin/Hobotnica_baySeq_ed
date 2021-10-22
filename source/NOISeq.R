@@ -24,7 +24,7 @@ noiseq_f <- function(counts, coldata) {
 }
 
 # Visualize function
-noiseq_v <- function(noiseq_res) {
+noiseq_v <- function(noiseq_res, out) {
     library(BiocManager)
     library(dplyr)
     library(tximeta)
@@ -43,7 +43,7 @@ noiseq_v <- function(noiseq_res) {
     df <- data.frame(x = x, y = y, group = factor(group))
     colors <- c("red", "gray")
 
-    pdf("data/noiseq_plot.pdf")   # Make plot
+    pdf(file.path(out, "noiseq_plot.pdf"))
     plot(df$x, df$y, col = colors[df$group], pch = 16,
         ylim = c(0,10000),
         main="NOISeq results",

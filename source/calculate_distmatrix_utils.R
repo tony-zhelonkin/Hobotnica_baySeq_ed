@@ -22,12 +22,12 @@ calculate_distmatrix <- function(countMatrixFile, signatureFile) {
 }
 
 # Calculate dist matrixes for all tools
-calculate_distmatrixes <- function(countMatrixFile) {
+calculate_distmatrixes <- function(countMatrixFile, out) {
     # Calculate for all tools
-    calculate_distmatrix (countMatrixFile, "data/DESeq_sig.txt")
-    calculate_distmatrix (countMatrixFile, "data/EBSeq_sig.txt")
-    calculate_distmatrix (countMatrixFile, "data/edgeR_sig.txt")
-    calculate_distmatrix (countMatrixFile, "data/voom_sig.txt")
-    calculate_distmatrix (countMatrixFile, "data/NOISeq_sig.txt")
+    calculate_distmatrix (countMatrixFile, file.path(out, "DESeq_sig.txt"))
+    calculate_distmatrix (countMatrixFile, file.path(out, "EBSeq_sig.txt"))
+    calculate_distmatrix (countMatrixFile, file.path(out, "edgeR_sig.txt"))
+    calculate_distmatrix (countMatrixFile, file.path(out, "voom_sig.txt"))
+    calculate_distmatrix (countMatrixFile, file.path(out, "NOISeq_sig.txt"))
     return(0)
 }

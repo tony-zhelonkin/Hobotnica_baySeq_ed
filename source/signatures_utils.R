@@ -1,5 +1,5 @@
 # Make a signature of top-n genes
-top_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq, n) {
+top_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq, n, out) {
     # Import top-n creating functions
     import::here(deseq2_top, .from = 'source/DESeq.R')
     import::here(ebseq_top, .from = 'source/EBSeq.R')
@@ -8,15 +8,15 @@ top_signature <- function(results_deseq2, results_ebseq, results_edger, results_
     import::here(noiseq_top, .from = 'source/NOISeq.R')
 
     #Download results of different tools
-    writeLines(deseq2_top(results_deseq2, n), "data/DESeq_sig.txt")
-    writeLines(ebseq_top(results_ebseq, n), "data/EBSeq_sig.txt")
-    writeLines(edger_top(results_edger, n), "data/edgeR_sig.txt")
-    writeLines(voom_top(results_voom, n), "data/voom_sig.txt")
-    writeLines(noiseq_top(results_noiseq, n), "data/NOISeq_sig.txt")
+    writeLines(deseq2_top(results_deseq2, n), file.path(out, "DESeq_sig.txt"))
+    writeLines(ebseq_top(results_ebseq, n), file.path(out, "EBSeq_sig.txt"))
+    writeLines(edger_top(results_edger, n), file.path(out, "edgeR_sig.txt"))
+    writeLines(voom_top(results_voom, n), file.path(out, "voom_sig.txt"))
+    writeLines(noiseq_top(results_noiseq, n), file.path(out, "NOISeq_sig.txt"))
 }
 
 # Make a signature of filtered genes
-filtered_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq) {
+filtered_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq, out) {
     # Import filtered creating functions
     import::here(deseq2_filtered, .from = 'source/DESeq.R')
     import::here(ebseq_filtered, .from = 'source/EBSeq.R')
@@ -25,54 +25,54 @@ filtered_signature <- function(results_deseq2, results_ebseq, results_edger, res
     import::here(noiseq_filtered, .from = 'source/NOISeq.R')
 
     #Download results of different tools
-    writeLines(deseq2_filtered(results_deseq2), "data/DESeq_sig.txt")
-    writeLines(ebseq_filtered(results_ebseq), "data/EBSeq_sig.txt")
-    writeLines(edger_filtered(results_edger), "data/edgeR_sig.txt")
-    writeLines(voom_filtered(results_voom), "data/voom_sig.txt")
-    writeLines(noiseq_filtered(results_noiseq), "data/NOISeq_sig.txt")
+    writeLines(deseq2_filtered(results_deseq2), file.path(out, "DESeq_sig.txt"))
+    writeLines(ebseq_filtered(results_ebseq), file.path(out, "EBSeq_sig.txt"))
+    writeLines(edger_filtered(results_edger), file.path(out, "edgeR_sig.txt"))
+    writeLines(voom_filtered(results_voom), file.path(out, "voom_sig.txt"))
+    writeLines(noiseq_filtered(results_noiseq), file.path(out, "NOISeq_sig.txt"))
 }
 
 
 # this function saves to file a Venn diagram based on signature of differentially expressed
 # genes extracted from edgeR, DeSeq2, voom+limma, EBSeq & NOISeq instruments
-draw_venn_diag <- function() {
+draw_venn_diag <- function(out) {
     library(futile.logger)
     # Download results of signature making. Check on zero length subsets
     sig_vis <- list()
     sig_names <- c()
     number_of_elem <- 0
-    if (file.info("data/edgeR_sig.txt")$size == 0) {
+    if (file.info(file.path(out, "edgeR_sig.txt"))$size == 0) {
         cat('There is no gene in edgeR for that signature\n')
     } else {
-        sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = "data/edgeR_sig.txt", header = FALSE)))
+        sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = file.path(out, "edgeR_sig.txt"), header = FALSE)))
         sig_names <- c(sig_names, "edgeR")
         number_of_elem <- number_of_elem + 1
     }
-    if (file.info("data/DESeq_sig.txt")$size == 0) {
+    if (file.info(file.path(out, "DESeq_sig.txt"))$size == 0) {
         cat('There is no gene in DESeq for that signature\n')
     } else {
-        sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = "data/DESeq_sig.txt", header = FALSE)))
+        sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = file.path(out, "DESeq_sig.txt"), header = FALSE)))
         sig_names <- c(sig_names, "DeSeq2")
         number_of_elem <- number_of_elem + 1
     }
-    if (file.info("data/voom_sig.txt")$size == 0) {
+    if (file.info(file.path(out, "voom_sig.txt"))$size == 0) {
         cat('There is no gene in voom for that signature\n')
     } else {
-        sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = "data/voom_sig.txt", header = FALSE)))
+        sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = file.path(out, "voom_sig.txt"), header = FALSE)))
         sig_names <- c(sig_names, "Voom+Limma")
         number_of_elem <- number_of_elem + 1
     }
-    if (file.info("data/EBSeq_sig.txt")$size == 0) {
+    if (file.info(file.path(out, "EBSeq_sig.txt"))$size == 0) {
         cat('There is no gene in EBSeq for that signature\n')
     } else {
-        sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = "data/EBSeq_sig.txt", header = FALSE)))
+        sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = file.path(out, "EBSeq_sig.txt"), header = FALSE)))
         sig_names <- c(sig_names, "EBSeq")
         number_of_elem <- number_of_elem + 1
     }
-    if (file.info("data/NOISeq_sig.txt")$size == 0) {
+    if (file.info(file.path(out, "NOISeq_sig.txt"))$size == 0) {
         cat('There is no gene in NOISeq for that signature\n')
     } else {
-        sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = "data/NOISeq_sig.txt", header = FALSE)))
+        sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = file.path(out, "NOISeq_sig.txt"), header = FALSE)))
         sig_names <- c(sig_names, "NOISeq")
         number_of_elem <- number_of_elem + 1
     }
@@ -89,7 +89,7 @@ draw_venn_diag <- function() {
         myCol <- c("#CBD5E8")
     }
 
-    pdf("data/venn_diagram.pdf")
+    pdf(file.path(out, "venn_diagram.pdf"))
     grid.newpage()
     futile.logger::flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
     if (number_of_elem == 5) {

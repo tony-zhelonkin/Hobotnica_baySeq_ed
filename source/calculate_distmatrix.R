@@ -4,5 +4,6 @@ countMatrixFile <- args[1]
 if (!file.exists(countMatrixFile)) {
   stop("File ", countMatrixFile, " does not exists!")
 }
-calculate_distmatrixes(countMatrixFile)
+out <- 'data'
+calculate_distmatrixes(countMatrixFile, out)
 
