@@ -38,14 +38,14 @@ edger_f <- function(counts, coldata) {
 }
 
 # Visualize function
-edger_v <- function(edger_res) {
+edger_v <- function(edger_res, out) {
     library(BiocManager)
     library(dplyr)
     library(tximeta)
     library(SummarizedExperiment)
     library(edgeR)
     library(EnhancedVolcano)
-    pdf("data/edger_plot.pdf")
+    pdf(file.path(out, "edger_plot.pdf"))
     EnhancedVolcano(edger_res,
             lab = rownames(edger_res),
             x = 'logFC',

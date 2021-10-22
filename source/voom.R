@@ -39,7 +39,7 @@ voom_f <- function(counts, coldata) {
 }
 
 # Visualize function
-voom_v <- function(voom_res) {
+voom_v <- function(voom_res, out) {
     # Import libraries
     library(BiocManager)
     library(dplyr)
@@ -50,7 +50,7 @@ voom_v <- function(voom_res) {
     library(EnhancedVolcano)
 
     #Plot
-    pdf("data/voom_plot.pdf")
+    pdf(file.path(out, "voom_plot.pdf"))
     EnhancedVolcano(voom_res,
             lab = rownames(voom_res),
             x = 'logFC',

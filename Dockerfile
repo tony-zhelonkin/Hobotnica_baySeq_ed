@@ -9,7 +9,3 @@ COPY hobotnica/ /hobotnica
 RUN mkdir data
 
 RUN Rscript install.R
-
-
-
-

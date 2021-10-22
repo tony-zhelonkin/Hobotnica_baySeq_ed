@@ -9,13 +9,13 @@ calculate_hobotnica <- function(distmat_filename, condition) {
 }
 
 # Calculate hobotnica scores for all tools and write it in the files
-use_hobotnica <- function(condition) {
+use_hobotnica <- function(condition, out) {
     results <- c()
-    results <- c(results, paste0("DESeq2 ", calculate_hobotnica("data/DESeq_sig.txt.distmatrix", condition)))
-    results <- c(results, paste0("EBSeq ", calculate_hobotnica("data/EBSeq_sig.txt.distmatrix", condition)))
-    results <- c(results, paste0("edgeR ", calculate_hobotnica("data/edgeR_sig.txt.distmatrix", condition)))
-    results <- c(results, paste0("voom ", calculate_hobotnica("data/voom_sig.txt.distmatrix", condition)))
-    results <- c(results, paste0("NOISeq ", calculate_hobotnica("data/NOISeq_sig.txt.distmatrix", condition)))
-    writeLines(results, "data/hobotnica_scores.txt")
+    results <- c(results, paste0("DESeq2 ", calculate_hobotnica(file.path(out, "DESeq_sig.txt.distmatrix"), condition)))
+    results <- c(results, paste0("EBSeq ", calculate_hobotnica(file.path(out, "EBSeq_sig.txt.distmatrix"), condition)))
+    results <- c(results, paste0("edgeR ", calculate_hobotnica(file.path(out, "edgeR_sig.txt.distmatrix"), condition)))
+    results <- c(results, paste0("voom ", calculate_hobotnica(file.path(out, "voom_sig.txt.distmatrix"), condition)))
+    results <- c(results, paste0("NOISeq ", calculate_hobotnica(file.path(out, "NOISeq_sig.txt.distmatrix"), condition)))
+    writeLines(results, file.path(out, "hobotnica_scores.txt"))
     return(results)
 }

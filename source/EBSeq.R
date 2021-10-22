@@ -26,7 +26,7 @@ ebseq_f <- function(counts, coldata) {
 }
 
 # Visualize function
-ebseq_v <- function(ebseq_res) {
+ebseq_v <- function(ebseq_res, out) {
     library(BiocManager)
     library(dplyr)
     library(tximeta)
@@ -44,7 +44,7 @@ ebseq_v <- function(ebseq_res) {
     df <- data.frame(x = x, y = y, group = factor(group))
     colors <- c("red", "blue", "green", "gray")
 
-    pdf("data/ebseq_plot.pdf")   # Make plot
+    pdf(file.path(out, "ebseq_plot.pdf"))   # Make plot
     plot(df$x, df$y, col = colors[df$group], pch = 16,
         xlim =c(-5,5),
         ylim=c(0,1),
