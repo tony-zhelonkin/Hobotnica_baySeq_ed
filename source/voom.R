@@ -67,9 +67,6 @@ voom_top <- function(results, n) {
     library("edgeR")
     library("biomaRt")
 
-    # Extract results of analysis
-    results <- readRDS(file = "data/voom_res.rds")
-
     # Filter results by logFC > 1 or logFC < -1
     filtered_results <- results[abs(results$logFC) > 1, ]
 
