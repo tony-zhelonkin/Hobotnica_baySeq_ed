@@ -121,11 +121,12 @@ where **output** is a name of directory for results.
 Source files description
 -----------------
 
-- **install.R**
-
+- **install.R** \
+\
 Installs all required R packages.
 
-**Example**: Rscript install.R
+**Example**: 
+>Rscript install.R
 
 - **run.R** \
 Contains all the pipeline. It needs three command arguments - count 
@@ -166,7 +167,7 @@ Imports functions from **source/calculate_distmatrix_utils.R**
 It needs three command arguments - count matrix file name, table 
 annotation file name and output directory name. 
 
-Example: 
+**Example**: 
 > Rscript source/pipeline_parts/calculate_distmatrix.R data/TCGA_prostate_countmatrix.txt 
 data/annotation_TCGA_prostate.txt ouput
 
@@ -177,7 +178,7 @@ Imports functions from **hobotnica/R/Hobotnica.R**
 It needs three command arguments - count matrix file name, table 
 annotation file name and output directory name. 
 
-Example: 
+**Example**: 
 > Rscript source/pipeline_parts/calculate_distmatrix.R data/TCGA_prostate_countmatrix.txt 
 data/annotation_TCGA_prostate.txt ouput
 
@@ -260,7 +261,7 @@ Current problems
 - A lot of unuseful information in output.
 - ***filtered_signature*** signature is unrepresentative. Perhaps every 
 tool has their own sensitiveness for logFC, p-value etc.
-- Download some other features.
+- Probably need to add some other features.
 
 
 
