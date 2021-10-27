@@ -122,137 +122,65 @@ Source files description
 -----------------
 
 - **install.R** \
-\
-Installs all required R packages.
-
+Installs all required R packages.\
 **Example**: 
->Rscript install.R
+`Rscript install.R`
+
 
 - **run.R** \
 Contains all the pipeline. It needs three command arguments - count 
 matrix file name, table annotation file name and output directory name. 
-See output of run.R in output data paragraph of readme.
+See output of run.R in output data paragraph of readme.\
 Imports functions from **source/DESeq.R**, **source/EBSeq.R**, 
 **source/edgeR.R**, **source/NOISeq.R**, **source/voom.R**, 
-**source/signatures_utils.R**, **source/calculate_distmatrix_utils.R**
+**source/signatures_utils.R**, **source/calculate_distmatrix_utils.R** \
+**Example**: \
+`Rscript run.R data/TCGA_prostate_countmatrix.txt 
+data/annotation_TCGA_prostate.txt ouput`
 
-**Example**: 
->Rscript run.R data/TCGA_prostate_countmatrix.txt 
-data/annotation_TCGA_prostate.txt ouput
 
 - **source/pipeline_parts/de_analysis.R**\
 Computes differential expression for all tools. Returns **'\*_res.rds'**
 files and **'\*_plot.pdf'** files. Imports functions from **source/DESeq.R**,
 **source/EBSeq.R**, **source/edgeR.R**, **source/NOISeq.R**, 
 **source/voom.R**.  It needs three command arguments - count 
-matrix file name, table annotation file name and output directory name. 
-
+matrix file name, table annotation file name and output directory name. \
 **Example**: 
->Rscript source/pipeline_parts/de_analysis.R data/TCGA_prostate_countmatrix.txt 
-data/annotation_TCGA_prostate.txt ouput
+`Rscript source/pipeline_parts/de_analysis.R data/TCGA_prostate_countmatrix.txt 
+data/annotation_TCGA_prostate.txt ouput`
+
 
 - **source/pipeline_parts/signatures_making.R**\
 Makes **'\*_sig.txt'** files using **'\*_res.rds'** files and chosen 
 signature. Imports functions from **source/signatures_utils.R**.
 It needs three command arguments - count matrix file name, table 
-annotation file name and output directory name. 
+annotation file name and output directory name. \
+**Example**: \
+`Rscript source/pipeline_parts/signatures_making.R data/TCGA_prostate_countmatrix.txt 
+data/annotation_TCGA_prostate.txt ouput`
 
-**Example**: 
->Rscript source/pipeline_parts/signatures_making.R data/TCGA_prostate_countmatrix.txt 
-data/annotation_TCGA_prostate.txt ouput
 
 - **source/pipeline_parts/calculate_distmatrix.R**\
 Makes **'\*_sig.txt.distmatrix'** files using **'\*_sig.txt'** files. 
 Imports functions from **source/calculate_distmatrix_utils.R**
 It needs three command arguments - count matrix file name, table 
-annotation file name and output directory name. 
-
-**Example**: 
-> Rscript source/pipeline_parts/calculate_distmatrix.R data/TCGA_prostate_countmatrix.txt 
-data/annotation_TCGA_prostate.txt ouput
+annotation file name and output directory name.\
+**Example**: \
+`Rscript source/pipeline_parts/calculate_distmatrix.R data/TCGA_prostate_countmatrix.txt 
+data/annotation_TCGA_prostate.txt ouput`
 
 - **source/pipeline_parts/calculate_hobotnica.R**\
 Makes **'hobotnica_scores.txt'** file using **'\*_sig.txt.distmatrix'** 
 files. 
 Imports functions from **hobotnica/R/Hobotnica.R**
 It needs three command arguments - count matrix file name, table 
-annotation file name and output directory name. 
-
+annotation file name and output directory name.
 **Example**: 
-> Rscript source/pipeline_parts/calculate_distmatrix.R data/TCGA_prostate_countmatrix.txt 
-data/annotation_TCGA_prostate.txt ouput
+`Rscript source/pipeline_parts/calculate_distmatrix.R data/TCGA_prostate_countmatrix.txt 
+data/annotation_TCGA_prostate.txt ouput`
 
 
-
-- **source/DESeq.R**, **source/EBSeq.R**, **source/edgeR.R**, 
-**source/NOISeq.R**, **source/voom.R**\
-\
-Contain functions related to a specific tool. \
-\
-***\*\_f(counts, coldata)*** - computes differential expression, where *count*
-is matrix of count and *coldata* is prepared for usage information about
-conditions.\
-\
-***\*\_v(\*\_res, out)*** - visualizes differential expression. *\*\_res* - is a 
-result of differential expression analysis. *out* is name for 
-output directory\
-\
-***\*\_top(results, n)*** - makes subset of top-n expressed genes. *results* 
-is a result of differential expression analysis, *n* - is a number 
-of genes in top.\
-\
-***\*\_filtered(results)*** - makes subset of filtered genes. *results* - is a
-result of differential expression analysis. *Have a strange results, better
-not to use.*
-
-
-- **source/signatures_utils.R**\
-\
-Contains functions for subset making.\
-\
-***top_signature(results_deseq2, results_ebseq, results_edger, results_voom,
-results_noiseq, n, out)*** - makes **'\*_sig.txt'** files using top-n signature. 
-Arguments are results of differential expression analysis and *n* - 
-number of genes in top. *out* is name for 
-output directory\
-\
-***filtered_signature(results_deseq2, results_ebseq, results_edger, 
-results_voom, results_noiseq, out)*** - makes **'\*_sig.txt'** files using 
-filtering. Arguments are results of differential expression analysis. *Have
-a strange results, better not to use.* *out* is name for 
-output directory\
-\
-***draw_venn_diag(out)*** - plots Venn diagram. Uses as constant that names:
-**'DESeq_sig.txt.distmatrix'**, **'EBSeq_sig.txt.distmatrix'**, 
-**'edgeR_sig.txt.distmatrix'**, **'NOISeq_sig.txt.distmatrix'** and 
-**'voom_sig.txt.distmatrix'**. If one of the subset does not exist, 
-skip it. *out* is name for 
-output directory
-
-
-- **source/calculate_distmatrix_utils.R** \
-\
-Contains functions for distance matrix making.\
-\
-***calculate_distmatrix(countMatrixFile, signatureFile)*** - makes 
-**'\*_sig.txt.distmatrix'** from count matrix *countMatrixFile* and 
-subset *signatureFile*.\
-
-
-- **source/hobotnica_using.R**\
-\
-Contains functions for using Hobotnica tool.\
-\
-***calculate_hobotnica (distmat, condition)*** - calculate 
-Hobotnica score for certain distance matrix *distmat* and 
-list of conditions for each sample *condition*.\
-\
-***use_hobotnica (deseq_distmat, ebseq_distmat, \
-edger_distmat, voom_distmat, noiseq_distmat, \
-condition, out)*** - calculate Hobotnica score for all tool's 
-distance matrixes, which are first 5 arguments
-and list of conditions for each sample *condition*. *out* is name for 
-output directory
+Other files were not made for executing and contain functions for different parts of the pipelines.
 
 -------------------------------------------------------------------------
 
