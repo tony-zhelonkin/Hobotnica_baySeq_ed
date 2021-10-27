@@ -258,7 +258,6 @@ output directory
 
 Current problems
 ----------------
-- A lot of unuseful information in output.
 - ***filtered_signature*** signature is unrepresentative. Perhaps every 
 tool has their own sensitiveness for logFC, p-value etc.
 - Probably need to add some other features.
