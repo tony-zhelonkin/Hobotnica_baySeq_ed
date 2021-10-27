@@ -50,8 +50,7 @@ voom_v <- function(voom_res, out) {
     suppressMessages(library(EnhancedVolcano))
 
     #Plot
-    pdf(file.path(out, "voom_plot.pdf"))
-    EnhancedVolcano(voom_res,
+    vis_res <- EnhancedVolcano(voom_res,
             lab = rownames(voom_res),
             x = 'logFC',
             y = 'P.Value',
@@ -59,6 +58,7 @@ voom_v <- function(voom_res, out) {
             FCcutoff = 1.5,
             title = "limma-voom results",
             subtitle = "Differential expression")
+    return(vis_res)
 }
 
 # Make a signature of top-n genes

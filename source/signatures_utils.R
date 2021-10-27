@@ -145,18 +145,10 @@ crossing <- function(out) {
     colnames(cross_results) <- c("DESeq", "EBSeq", "edgeR", "NOISeq", "voom", "count")
     rownames(cross_results) <- sigs
     cross_results <- cross_results[order(cross_results$count, decreasing = TRUE), ]
-    write.table(cross_results, file=file.path(out,"crossing.csv"), row.names = FALSE)
+    write.table(cross_results, file=file.path(out,"crossing.csv"))
 }
 
-best_crossing <- function(out) {
-    if (!file.exists(file.path(out, "hobotnica_scores.txt"))) {
-        return paste0("File ", file.path(out, "hobotnica_scores.txt"), " does not exists!")
-    }
-    h_results <- read.table(file=file.path(out, "hobotnica_scores.txt"), sep = " ", dec = ".")
-    colnames(h_results) <- c("names", "scores")
-    h_results <- h_results[order(h_results$scores, decreasing = TRUE), ]
-
-    loginfo(paste0('According to Hobotnica best tool is ', h_results$names[1]))
+best_crossing <- function(h_results, out) {
     best_genes <- readLines(file.path(out,paste0(h_results$names[1], "_sig.txt")))
     top2_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[2], "_sig.txt")))
     top3_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[3], "_sig.txt")))

@@ -44,7 +44,7 @@ ebseq_v <- function(ebseq_res, out) {
     df <- data.frame(x = x, y = y, group = factor(group))
     colors <- c("red", "blue", "green", "gray")
 
-    pdf(file.path(out, "ebseq_plot.pdf"))   # Make plot
+      # Make plot
     plot(df$x, df$y, col = colors[df$group], pch = 16,
         xlim =c(-5,5),
         ylim=c(0,1),
@@ -55,7 +55,7 @@ ebseq_v <- function(ebseq_res, out) {
     text(DEgplots$x, DEgplots$y,
          labels = DEgplots$name,
          cex = 0.6, pos = 4, col = "black")
-    dev.off()
+
 }
 
 # Make a signature of top-n genes

@@ -23,25 +23,33 @@ if (!file.exists(out)) {
     dir.create(out)
 }
 
-n <- 30
-deseq_sig <- readLines(file.path(out,paste0("DESeq_sig.txt")))
-ebseq_sig <- readLines(file.path(out,paste0("EBSeq_sig.txt")))
-edger_sig <- readLines(file.path(out,paste0("edgeR_sig.txt")))
-noiseq_sig <- readLines(file.path(out,paste0("NOISeq_sig.txt")))
-voom_sig <- readLines(file.path(out,paste0("voom_sig.txt")))
-sigs <- unique(c(deseq_sig, ebseq_sig, edger_sig, noiseq_sig, voom_sig))
-deseq_cross <- ifelse(sigs %in% deseq_sig, '+', '-')
-ebseq_cross <- ifelse(sigs %in% ebseq_sig, '+', '-')
-edger_cross <- ifelse(sigs %in% edger_sig, '+', '-')
-noiseq_cross <- ifelse(sigs %in% noiseq_sig, '+', '-')
-voom_cross <- ifelse(sigs %in% voom_sig, '+', '-')
-count_cross <- ifelse(deseq_cross == '+', 1, 0) + ifelse(ebseq_cross == '+', 1, 0) +
-                ifelse(edger_cross == '+', 1, 0) + ifelse(noiseq_cross == '+', 1, 0) +
-                ifelse(voom_cross == '+', 1, 0)
-cross_results <- data.frame(deseq_cross, ebseq_cross, edger_cross,
-    noiseq_cross, voom_cross, count_cross)
-colnames(cross_results) <- c("DESeq", "EBSeq", "edgeR", "NOISeq", "voom", "count")
-rownames(cross_results) <- sigs
-cross_results <- cross_results[order(cross_results$count, decreasing = TRUE), ]
-cross_results
-write.table(cross_results, file=file.path(out,"crossing.csv"), row.names = FALSE)
+# Import functions from modules
+source("source/DESeq.R")
+source("source/EBSeq.R")
+source("source/edgeR.R")
+source("source/voom.R")
+source("source/NOISeq.R")
+
+deseq2_res <- readRDS(file = file.path(out, "DESeq_res.rds"))
+ebseq_res <- readRDS(file = file.path(out, "EBSeq_res.rds"))
+edger_res <- readRDS(file = file.path(out, "edgeR_res.rds"))
+voom_res <- readRDS(file = file.path(out, "voom_res.rds"))
+noiseq_res <- readRDS(file = file.path(out, "NOISeq_res.rds"))
+
+# Visualize results of differential expression
+loginfo('Visualize results of differential expression')
+pdf(file.path(out, "de_plots.pdf"))
+library(gridExtra)
+library(grid)
+library(ggplot2)
+library(lattice)
+deseq2_v(deseq2_res, out)
+#a <- ebseq_v(ebseq_res, out)
+b <- edger_v(edger_res, out)
+c <- voom_v(voom_res, out)
+#d <- noiseq_v(noiseq_res, out)
+grid.arrange(b, c, ncol=2,     top = textGrob('EnhancedVolcano',
+      just = c('center'),
+      gp = gpar(fontsize = 32)))
+dev.off()
+loginfo('Visualization results of differential expression is done')

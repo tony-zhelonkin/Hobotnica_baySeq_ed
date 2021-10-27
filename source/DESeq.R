@@ -36,8 +36,8 @@ deseq2_v <- function(deseq2_res, out) {
     suppressMessages(library(SummarizedExperiment))
     suppressMessages(library(DESeq2))
     suppressMessages(library(EnhancedVolcano))
-    pdf(file.path(out, "deseq2_plot.pdf"))
-    EnhancedVolcano(deseq2_res,
+
+    vis_res <- EnhancedVolcano(deseq2_res,
             lab = rownames(deseq2_res),
             x = 'log2FoldChange',
             y = 'pvalue',
@@ -45,6 +45,7 @@ deseq2_v <- function(deseq2_res, out) {
             FCcutoff = 3,
             title = "DESeq2 results",
             subtitle = "Differential expression")
+    return(vis_res)
 }
 
 # Make a signature of top-n genes

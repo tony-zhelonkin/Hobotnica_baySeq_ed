@@ -31,7 +31,7 @@ noiseq_v <- function(noiseq_res, out) {
     suppressMessages(library(SummarizedExperiment))
     suppressMessages(library(NOISeq))
     suppressMessages(library(EnhancedVolcano))
-    
+
     # Built in graphic function
     # DE.plot(noiseq_res, q = 0.8, graphic = "MD")
   
@@ -43,7 +43,7 @@ noiseq_v <- function(noiseq_res, out) {
     df <- data.frame(x = x, y = y, group = factor(group))
     colors <- c("red", "gray")
 
-    pdf(file.path(out, "noiseq_plot.pdf"))
+
     plot(df$x, df$y, col = colors[df$group], pch = 16,
         ylim = c(0,10000),
         main="NOISeq results",
@@ -53,7 +53,6 @@ noiseq_v <- function(noiseq_res, out) {
     text(DEgplots$x, DEgplots$y,
          labels = DEgplots$name,
          cex = 1.0, pos = 4, col = "black")
-    dev.off()
 }
 
 

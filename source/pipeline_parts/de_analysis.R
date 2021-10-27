@@ -64,9 +64,13 @@ saveRDS(noiseq_res, file = file.path(out, "NOISeq_res.rds"))
 
 
 # Visualize results of differential expression
+# Visualize results of differential expression
 loginfo('Visualize results of differential expression')
+pdf(file.path(out, "de_plots.pdf"))
 deseq2_v(deseq2_res, out)
 ebseq_v(ebseq_res, out)
 edger_v(edger_res, out)
 voom_v(voom_res, out)
 noiseq_v(noiseq_res, out)
+dev.off()
+loginfo('Visualization results of differential expression is done')

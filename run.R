@@ -98,11 +98,13 @@ if (save_flag == 1) {
 
 # Visualize results of differential expression
 loginfo('Visualize results of differential expression')
+pdf(file.path(out, "de_plots.pdf"))
 deseq2_v(deseq2_res, out)
 ebseq_v(ebseq_res, out)
 edger_v(edger_res, out)
 voom_v(voom_res, out)
 noiseq_v(noiseq_res, out)
+dev.off()
 loginfo('Visualization results of differential expression is done')
 
 loginfo('Make signatures of differential expression analysis')
@@ -115,6 +117,12 @@ loginfo('Visualize signature crossing')
 # Draw a Venn diagram
 draw_venn_diag(out)
 loginfo('Visualized')
+
+loginfo('Save top genes crossing')
+# Save top genes crossing
+crossing(out)
+loginfo('Saved')
+
 
 loginfo('Calculate distance matrices for tools')
 # Calculate dist matrices for tools
@@ -153,3 +161,14 @@ loginfo('Start scoring Hobotnica')
 source("source/hobotnica_using.R")
 use_hobotnica(deseq_distmat, ebseq_distmat, edger_distmat, voom_distmat, noiseq_distmat, coldata$condition, out)
 loginfo('Hobotnica scores are ready')
+
+h_results <- read.table(file=file.path(out, "hobotnica_scores.txt"), sep = " ", dec = ".")
+colnames(h_results) <- c("names", "scores")
+h_results <- h_results[order(h_results$scores, decreasing = TRUE), ]
+loginfo(paste0('According to Hobotnica best tool is ', h_results$names[1]))
+
+loginfo('Save top genes crossing with best tool\'s top genes')
+# Save top genes crossing
+best_crossing(h_results, out)
+loginfo('Saved')
+loginfo('The end')

@@ -45,8 +45,7 @@ edger_v <- function(edger_res, out) {
     suppressMessages(library(SummarizedExperiment))
     suppressMessages(library(edgeR))
     suppressMessages(library(EnhancedVolcano))
-    pdf(file.path(out, "edger_plot.pdf"))
-    EnhancedVolcano(edger_res,
+    vis_res <-  EnhancedVolcano(edger_res,
             lab = rownames(edger_res),
             x = 'logFC',
             y = 'PValue',
@@ -54,6 +53,7 @@ edger_v <- function(edger_res, out) {
             FCcutoff = 4,
             title = "edgeR results",
             subtitle = "Differential expression")
+    return(vis_res)
 }
 
 # Make a signature of top-n genes
