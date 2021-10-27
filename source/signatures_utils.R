@@ -33,7 +33,7 @@ filtered_signature <- function(results_deseq2, results_ebseq, results_edger, res
 }
 
 
-# this function saves to file a Venn diagram based on signature of differentially expressed
+# This function saves to file a Venn diagram based on signature of differentially expressed
 # genes extracted from edgeR, DeSeq2, voom+limma, EBSeq & NOISeq instruments
 draw_venn_diag <- function(out) {
     suppressMessages(library(futile.logger))
@@ -121,4 +121,49 @@ draw_venn_diag <- function(out) {
     filename = NULL
     )
     grid.draw(venn_obj)
+}
+
+# Make a table view of venn diagram
+
+crossing <- function(out) {
+    deseq_sig <- readLines(file.path(out,paste0("DESeq_sig.txt")))
+    ebseq_sig <- readLines(file.path(out,paste0("EBSeq_sig.txt")))
+    edger_sig <- readLines(file.path(out,paste0("edgeR_sig.txt")))
+    noiseq_sig <- readLines(file.path(out,paste0("NOISeq_sig.txt")))
+    voom_sig <- readLines(file.path(out,paste0("voom_sig.txt")))
+    sigs <- unique(c(deseq_sig, ebseq_sig, edger_sig, noiseq_sig, voom_sig))
+    deseq_cross <- ifelse(sigs %in% deseq_sig, '+', '-')
+    ebseq_cross <- ifelse(sigs %in% ebseq_sig, '+', '-')
+    edger_cross <- ifelse(sigs %in% edger_sig, '+', '-')
+    noiseq_cross <- ifelse(sigs %in% noiseq_sig, '+', '-')
+    voom_cross <- ifelse(sigs %in% voom_sig, '+', '-')
+    count_cross <- ifelse(deseq_cross == '+', 1, 0) + ifelse(ebseq_cross == '+', 1, 0) +
+                    ifelse(edger_cross == '+', 1, 0) + ifelse(noiseq_cross == '+', 1, 0) +
+                    ifelse(voom_cross == '+', 1, 0)
+    cross_results <- data.frame(deseq_cross, ebseq_cross, edger_cross,
+        noiseq_cross, voom_cross, count_cross)
+    colnames(cross_results) <- c("DESeq", "EBSeq", "edgeR", "NOISeq", "voom", "count")
+    rownames(cross_results) <- sigs
+    cross_results <- cross_results[order(cross_results$count, decreasing = TRUE), ]
+    write.table(cross_results, file=file.path(out,"crossing.csv"), row.names = FALSE)
+}
+
+best_crossing <- function(out) {
+    if (!file.exists(file.path(out, "hobotnica_scores.txt"))) {
+        return paste0("File ", file.path(out, "hobotnica_scores.txt"), " does not exists!")
+    }
+    h_results <- read.table(file=file.path(out, "hobotnica_scores.txt"), sep = " ", dec = ".")
+    colnames(h_results) <- c("names", "scores")
+    h_results <- h_results[order(h_results$scores, decreasing = TRUE), ]
+
+    loginfo(paste0('According to Hobotnica best tool is ', h_results$names[1]))
+    best_genes <- readLines(file.path(out,paste0(h_results$names[1], "_sig.txt")))
+    top2_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[2], "_sig.txt")))
+    top3_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[3], "_sig.txt")))
+    top4_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[4], "_sig.txt")))
+    top5_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[5], "_sig.txt")))
+    cross_results <- data.frame(best_genes, ifelse(top2_cross, '+', '-'), ifelse(top3_cross, '+', '-'),
+        ifelse(top4_cross, '+', '-'), ifelse(top5_cross, '+', '-'))
+    colnames(cross_results) <- h_results$names
+    write.table(cross_results, file=file.path(out,"crossing_with_best.csv"), row.names = FALSE, qmethod = "double")
 }

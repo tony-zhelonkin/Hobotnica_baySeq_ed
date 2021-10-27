@@ -25,10 +25,22 @@ if (!file.exists(out)) {
     dir.create(out)
 }
 save_flag <- 0
-if (length(cm_args)  >= 4) {
-    option <- cm_args[4]
+arg_counter <- 4
+n <- 30
+while (length(cm_args)  >= arg_counter) {
+    option <- cm_args[arg_counter]
     if (option == "-s") {
         save_flag <- 1
+        arg_counter <- arg_counter + 1
+    }
+    if (option == "-n") {
+        if (length(cm_args)  > arg_counter) {
+            arg_counter <- arg_counter + 1
+            n <- as.numeric(cm_args[arg_counter])
+        } else {
+            loginfo("-n option should have a number of genes in top after itself. Default number is 30, run with it")
+        }
+        arg_counter <- arg_counter + 1
     }
 }
 
@@ -95,7 +107,7 @@ loginfo('Visualization results of differential expression is done')
 
 loginfo('Make signatures of differential expression analysis')
 source("source/signatures_utils.R")
-top_signature(deseq2_res, ebseq_res, edger_res, voom_res, noiseq_res, 30, out)
+top_signature(deseq2_res, ebseq_res, edger_res, voom_res, noiseq_res, n, out)
 loginfo('Signatures of differential expression analysis are made')
 
 
