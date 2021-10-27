@@ -1,7 +1,13 @@
+# Control output
+library(knitr)
+knitr::opts_chunk$set(include = FALSE)
+
 # Logger config
-library(logging)
+suppressMessages(library(logging))
 basicConfig()
 loginfo('Start')
+
+
 
 # Load data
 cm_args <- commandArgs(trailingOnly = TRUE)

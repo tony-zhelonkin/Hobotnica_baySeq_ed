@@ -1,11 +1,11 @@
 # Calculate diff expression analysis
 ebseq_f <- function(counts, coldata) {
     # Import libraries
-    library(BiocManager)
-    library(dplyr)
-    library(tximeta)
-    library(SummarizedExperiment)
-    library(EBSeq)
+    suppressMessages(library(BiocManager))
+    suppressMessages(library(dplyr))
+    suppressMessages(library(tximeta))
+    suppressMessages(library(SummarizedExperiment))
+    suppressMessages(library(EBSeq))
 
     # Prepare data
     condition <- coldata$condition
@@ -27,12 +27,12 @@ ebseq_f <- function(counts, coldata) {
 
 # Visualize function
 ebseq_v <- function(ebseq_res, out) {
-    library(BiocManager)
-    library(dplyr)
-    library(tximeta)
-    library(SummarizedExperiment)
-    library(EBSeq)
-    library(EnhancedVolcano)
+    suppressMessages(library(BiocManager))
+    suppressMessages(library(dplyr))
+    suppressMessages(library(tximeta))
+    suppressMessages(library(SummarizedExperiment))
+    suppressMessages(library(EBSeq))
+    suppressMessages(library(EnhancedVolcano))
     res <- GetDEResults(ebseq_res)$PPMat
     GeneFC <- PostFC(ebseq_res, SmallNum = 0.01)    # Create dataframe with groups
     x = log2(GeneFC$PostFC)
@@ -60,8 +60,9 @@ ebseq_v <- function(ebseq_res, out) {
 
 # Make a signature of top-n genes
 ebseq_top <- function(results, n) {
-    library("EBSeq")
-    library("biomaRt")
+    # Import libraries
+    suppressMessages(library("EBSeq"))
+    suppressMessages(library("biomaRt"))
 
     # Extract results of analysis
     ppmat = GetDEResults(results)$PPMat
@@ -81,7 +82,7 @@ ebseq_top <- function(results, n) {
 
 # Filter genes by PPDE
 ebseq_filtered <- function(results) {
-    library("EBSeq")
+    suppressMessages(library("EBSeq"))
 
     # filtering results by PPDE >= 0.95
     ppde <- results$PPDE

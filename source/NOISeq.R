@@ -1,11 +1,11 @@
 # Calculate diff expression analysis
 noiseq_f <- function(counts, coldata) {
     # Import libraries
-    library(BiocManager)
-    library(dplyr)
-    library(tximeta)
-    library(SummarizedExperiment)
-    library(NOISeq)
+    suppressMessages(library(BiocManager))
+    suppressMessages(library(dplyr))
+    suppressMessages(library(tximeta))
+    suppressMessages(library(SummarizedExperiment))
+    suppressMessages(library(NOISeq))
 
     # Prepare data
     factors <- as.data.frame(coldata$condition)
@@ -25,12 +25,12 @@ noiseq_f <- function(counts, coldata) {
 
 # Visualize function
 noiseq_v <- function(noiseq_res, out) {
-    library(BiocManager)
-    library(dplyr)
-    library(tximeta)
-    library(SummarizedExperiment)
-    library(NOISeq)
-    library(EnhancedVolcano)
+    suppressMessages(library(BiocManager))
+    suppressMessages(library(dplyr))
+    suppressMessages(library(tximeta))
+    suppressMessages(library(SummarizedExperiment))
+    suppressMessages(library(NOISeq))
+    suppressMessages(library(EnhancedVolcano))
     
     # Built in graphic function
     # DE.plot(noiseq_res, q = 0.8, graphic = "MD")
@@ -59,8 +59,9 @@ noiseq_v <- function(noiseq_res, out) {
 
 # Make a signature of top-n genes
 noiseq_top <- function(results, n) {
-    library("NOISeq")
-    library("biomaRt")
+    # Import libraries
+    suppressMessages(library("NOISeq"))
+    suppressMessages(library("biomaRt"))
 
     # Filter results by q threshold
     filtered_results <- degenes(results, q = 0.8, M = NULL)
@@ -76,7 +77,7 @@ noiseq_top <- function(results, n) {
 
 # Filter genes by logFC and probability
 noiseq_filtered <- function(results) {
-  library("NOISeq")
+  suppressMessages(library("NOISeq"))
 
   # Filter results by q threshold
   filtered_results <- degenes(results, q = 0.8, M = NULL)

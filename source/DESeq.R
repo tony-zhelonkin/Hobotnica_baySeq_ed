@@ -1,11 +1,11 @@
 # Calculate diff expression analysis
 deseq2_f <- function(counts, coldata) {
     # Import libraries
-    library(BiocManager)
-    library(dplyr)
-    library(tximeta)
-    library(SummarizedExperiment)
-    library(DESeq2)
+    suppressMessages(library(BiocManager))
+    suppressMessages(library(dplyr))
+    suppressMessages(library(tximeta))
+    suppressMessages(library(SummarizedExperiment))
+    suppressMessages(library(DESeq2))
 
     # Prepare data
     condition <- coldata$condition
@@ -30,12 +30,12 @@ deseq2_f <- function(counts, coldata) {
 
 # Visualize function
 deseq2_v <- function(deseq2_res, out) {
-    library(BiocManager)
-    library(dplyr)
-    library(tximeta)
-    library(SummarizedExperiment)
-    library(DESeq2)
-    library(EnhancedVolcano)
+    suppressMessages(library(BiocManager))
+    suppressMessages(library(dplyr))
+    suppressMessages(library(tximeta))
+    suppressMessages(library(SummarizedExperiment))
+    suppressMessages(library(DESeq2))
+    suppressMessages(library(EnhancedVolcano))
     pdf(file.path(out, "deseq2_plot.pdf"))
     EnhancedVolcano(deseq2_res,
             lab = rownames(deseq2_res),
@@ -49,8 +49,9 @@ deseq2_v <- function(deseq2_res, out) {
 
 # Make a signature of top-n genes
 deseq2_top <- function(results, n) {
-    library("DESeq2")
-    library("biomaRt")
+    # Import libraries
+    suppressMessages(library("DESeq2"))
+    suppressMessages(library("biomaRt"))
 
     # Filter results by logFC > 1 or logFC < -1
     filtered_results <- results[!is.na(results$log2FoldChange) > 0 && abs(results$log2FoldChange) > 0.25, ]
@@ -66,7 +67,7 @@ deseq2_top <- function(results, n) {
 
 # Filter genes by logFC and p-value
 deseq2_filtered <- function(results) {
-  library("DESeq2")
+  suppressMessages(library("DESeq2"))
 
   # filtering results by log2FC >= 2 and p-value < 0.05
   filtered_results <- results[abs(results$log2FoldChange) >= 2 && results$pvalue < 0.05, ]

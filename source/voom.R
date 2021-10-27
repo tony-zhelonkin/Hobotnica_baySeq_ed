@@ -1,12 +1,12 @@
 # Calculate diff expression analysis
 voom_f <- function(counts, coldata) {
     # Import libraries
-    library(BiocManager)
-    library(dplyr)
-    library(tximeta)
-    library(SummarizedExperiment)
-    library(edgeR)
-    library(limma)
+    suppressMessages(library(BiocManager))
+    suppressMessages(library(dplyr))
+    suppressMessages(library(tximeta))
+    suppressMessages(library(SummarizedExperiment))
+    suppressMessages(library(edgeR))
+    suppressMessages(library(limma))
 
     # Prepare data
     condition <- coldata$condition
@@ -41,13 +41,13 @@ voom_f <- function(counts, coldata) {
 # Visualize function
 voom_v <- function(voom_res, out) {
     # Import libraries
-    library(BiocManager)
-    library(dplyr)
-    library(tximeta)
-    library(SummarizedExperiment)
-    library(edgeR)
-    library(limma)
-    library(EnhancedVolcano)
+    suppressMessages(library(BiocManager))
+    suppressMessages(library(dplyr))
+    suppressMessages(library(tximeta))
+    suppressMessages(library(SummarizedExperiment))
+    suppressMessages(library(edgeR))
+    suppressMessages(library(limma))
+    suppressMessages(library(EnhancedVolcano))
 
     #Plot
     pdf(file.path(out, "voom_plot.pdf"))
@@ -63,9 +63,10 @@ voom_v <- function(voom_res, out) {
 
 # Make a signature of top-n genes
 voom_top <- function(results, n) {
+
     # Import libraries
-    library("edgeR")
-    library("biomaRt")
+    suppressMessages(library("edgeR"))
+    suppressMessages(library("biomaRt"))
 
     # Filter results by logFC > 1 or logFC < -1
     filtered_results <- results[abs(results$logFC) > 1, ]
@@ -81,7 +82,7 @@ voom_top <- function(results, n) {
 
 # Filter genes by logFC and p-value
 voom_filtered <- function(results) {
-    library("edgeR")
+    suppressMessages(library("edgeR"))
 
     # filtering results by log2FC >= 2 and p-value < 0.05
     filtered_results <- results[abs(results$logFC) >= 2 && results$P.Value < 0.05, ]

@@ -1,11 +1,11 @@
 # Calculate diff expression analysis
 edger_f <- function(counts, coldata) {
     # Import libraries
-    library(BiocManager)
-    library(dplyr)
-    library(tximeta)
-    library(SummarizedExperiment)
-    library(edgeR)
+    suppressMessages(library(BiocManager))
+    suppressMessages(library(dplyr))
+    suppressMessages(library(tximeta))
+    suppressMessages(library(SummarizedExperiment))
+    suppressMessages(library(edgeR))
 
     # Prepare data
     condition <- coldata$condition
@@ -39,12 +39,12 @@ edger_f <- function(counts, coldata) {
 
 # Visualize function
 edger_v <- function(edger_res, out) {
-    library(BiocManager)
-    library(dplyr)
-    library(tximeta)
-    library(SummarizedExperiment)
-    library(edgeR)
-    library(EnhancedVolcano)
+    suppressMessages(library(BiocManager))
+    suppressMessages(library(dplyr))
+    suppressMessages(library(tximeta))
+    suppressMessages(library(SummarizedExperiment))
+    suppressMessages(library(edgeR))
+    suppressMessages(library(EnhancedVolcano))
     pdf(file.path(out, "edger_plot.pdf"))
     EnhancedVolcano(edger_res,
             lab = rownames(edger_res),
@@ -58,8 +58,9 @@ edger_v <- function(edger_res, out) {
 
 # Make a signature of top-n genes
 edger_top <- function(results, n) {
-    library("edgeR")
-    library("biomaRt")
+    # Import libraries
+    suppressMessages(library("edgeR"))
+    suppressMessages(library("biomaRt"))
 
     # Filter results by logFC > 1 or logFC < -1
     filtered_results <- results[abs(results$logFC) > 1, ]
@@ -75,7 +76,7 @@ edger_top <- function(results, n) {
 
 # Filter genes by logFC and p-value
 edger_filtered <- function(results) {
-    library("edgeR")
+    suppressMessages(library("edgeR"))
 
     # filtering results by log2FC >= 2 and p-value < 0.05
     filtered_results <- results[abs(results$logFC) >= 2 && results$PValue < 0.05, ]

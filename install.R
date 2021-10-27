@@ -1,4 +1,5 @@
-install.packages(c('tidyverse', 'hexbin', 'doParallel', 'ggplot2', 'ggbeeswarm', 'ggrepel', 'import', 'logging', 'amap', 'grid', 'futile.logger'), dependencies = TRUE)
+install.packages(c('knitr', 'tidyverse', 'hexbin', 'doParallel', 'ggplot2', 'ggbeeswarm', 'ggrepel', 'import', 'logging', 'amap',
+'grid', 'futile.logger'), dependencies = TRUE)
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 

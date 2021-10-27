@@ -1,11 +1,11 @@
 # Make a signature of top-n genes
 top_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq, n, out) {
     # Import top-n creating functions
-    import::here(deseq2_top, .from = 'source/DESeq.R')
-    import::here(ebseq_top, .from = 'source/EBSeq.R')
-    import::here(edger_top, .from = 'source/edgeR.R')
-    import::here(voom_top, .from = 'source/voom.R')
-    import::here(noiseq_top, .from = 'source/NOISeq.R')
+    suppressMessages(import::here(deseq2_top, .from = 'source/DESeq.R'))
+    suppressMessages(import::here(ebseq_top, .from = 'source/EBSeq.R'))
+    suppressMessages(import::here(edger_top, .from = 'source/edgeR.R'))
+    suppressMessages(import::here(voom_top, .from = 'source/voom.R'))
+    suppressMessages(import::here(noiseq_top, .from = 'source/NOISeq.R'))
 
     #Download results of different tools
     writeLines(deseq2_top(results_deseq2, n), file.path(out, "DESeq_sig.txt"))
@@ -36,7 +36,7 @@ filtered_signature <- function(results_deseq2, results_ebseq, results_edger, res
 # this function saves to file a Venn diagram based on signature of differentially expressed
 # genes extracted from edgeR, DeSeq2, voom+limma, EBSeq & NOISeq instruments
 draw_venn_diag <- function(out) {
-    library(futile.logger)
+    suppressMessages(library(futile.logger))
     # Download results of signature making. Check on zero length subsets
     sig_vis <- list()
     sig_names <- c()
@@ -78,9 +78,9 @@ draw_venn_diag <- function(out) {
     }
 
 
-    import::here(venn.diagram, .from = VennDiagram)
-    import::here(brewer.pal, .from = RColorBrewer)
-    import::here(grid.newpage, grid.draw, .from = grid)
+    suppressMessages(import::here(venn.diagram, .from = VennDiagram))
+    suppressMessages(import::here(brewer.pal, .from = RColorBrewer))
+    suppressMessages(import::here(grid.newpage, grid.draw, .from = grid))
     if (number_of_elem >= 3) {
         myCol <- brewer.pal(number_of_elem, "Pastel2")   
     } else if (number_of_elem == 2) {

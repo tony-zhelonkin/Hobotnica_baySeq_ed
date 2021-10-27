@@ -1,7 +1,7 @@
 # Calculate certain dist matrix
 calculate_distmatrix <- function(countMatrixFile, signatureFile) {
     # Download library
-    library("amap")
+    suppressMessages(library("amap"))
 
     # Download data from files
     signature <- readLines(signatureFile)
