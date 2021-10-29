@@ -3,7 +3,7 @@ Comparing differential expression analysis tools with Hobotnica
 ---------------------------------------------------------------------------------------
 
 
-Version: 1.0
+Version: 1.2
 ------------
 
 General usage notes
@@ -97,7 +97,9 @@ Create an image **diffexprimage** and start container **de_container**
 (it automatically uses Dockerfile from repository):
 > **$ docker build -t diffexprimage .**
 > 
-> **$ docker run --name de_container diffexprimage echo "hello from docker"**
+> **$ docker run -it --name de_container diffexprimage /bin/bash"**
+>
+>**# exit**
 >
 Copy your input data to container. **countmatrix.txt** is matrix of 
 un-normalized counts file name and **annotation.txt** is table of 
@@ -116,6 +118,11 @@ Start work with program from Docker container.
 > **/# Rscript run.R data/countmatrix.txt data/annotation.txt output**
 >
 where **output** is a name of directory for results.
+
+Copy output to your computer.
+>**docker cp de_container:output computer_output**
+>
+where **computer_output** is a directory for results.
 
 -------------------------------------
 
