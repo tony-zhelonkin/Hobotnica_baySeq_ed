@@ -145,7 +145,7 @@ crossing <- function(out) {
     colnames(cross_results) <- c("DESeq", "EBSeq", "edgeR", "NOISeq", "voom", "count")
     rownames(cross_results) <- sigs
     cross_results <- cross_results[order(cross_results$count, decreasing = TRUE), ]
-    write.table(cross_results, file=file.path(out,"crossing.csv"))
+    write.csv(cross_results, file=file.path(out,"crossing.csv"))
 }
 
 best_crossing <- function(h_results, out) {
@@ -157,5 +157,5 @@ best_crossing <- function(h_results, out) {
     cross_results <- data.frame(best_genes, ifelse(top2_cross, '+', '-'), ifelse(top3_cross, '+', '-'),
         ifelse(top4_cross, '+', '-'), ifelse(top5_cross, '+', '-'))
     colnames(cross_results) <- h_results$names
-    write.table(cross_results, file=file.path(out,"crossing_with_best.csv"), row.names = FALSE, qmethod = "double")
+    write.csv(cross_results, file=file.path(out,"crossing_with_best.csv"), row.names = FALSE)
 }

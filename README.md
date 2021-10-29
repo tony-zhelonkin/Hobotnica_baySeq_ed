@@ -19,8 +19,7 @@ of subsets.
 Input data format
 -----------------
 Program uses matrix of un-normalized counts, table of annotation for 
-each sample and name of directory for output. Optional flag is "-s", 
-which allows saving interim results.
+each sample and name of directory for output.
 
 The value in the i-th row and the j-th column of the count matrix tells 
 how many reads (or fragments, for paired-end RNA-seq) can be assigned to 
@@ -40,23 +39,25 @@ Output data
 Program gives several files for each tool as output. They all are in 
 requested directory.
 
-**'\*_plot.pdf'** files contain visualisation of differential expression analysis.
-Expressed genes are signed. Files names are **'DESeq_plot.pdf'**, 
-**'EBSeq_plot.pdf'**, **'edgeR_plot.pdf'**, **'NOISeq_plot.pdf'**
-and **'voom_plot.pdf'**.
+**'de_plots.pdf'** file contains visualisation of differential expression analysis.
+Expressed genes are signed.
 
 **'\*_sig.txt'** files contain lists of subsets for each tool corresponding 
-chosen signature. Default signature is top-30 most expressed genes. Files 
+chosen signature. Default signature is top-30 most expressed genes. You can manually change it by set "-n" option in run.R. Files 
 names are **'DESeq_sig.txt'**, **'EBSeq_sig.txt'**, **'edgeR_sig.txt'**,
 **'NOISeq_sig.txt'** and **'voom_sig.txt'**.
 
 Program also plots Venn diagram that shows intersection of different tools 
 subsets. File name is **'venn_diagram.pdf'**.
 
+File **'crossing.csv'** contains table with information which tool count this gene as expressed.
+ 
 File **'hobotnica_scores.txt'** contains results of Hobotnica computing 
 for each tool.
 
-Optionally, using "-s" flag you can save this files:
+File **'crossing_with_best.csv'** contains results of the best tool and its intersection with other tools results.  
+
+Using "-s" option in run.R you can save this files:
 
 - **'\*_res.rds'** files contain differential expression analysis results. They 
 are different for each tool and might be of interest only for users who 
@@ -127,9 +128,12 @@ Installs all required R packages.\
 `Rscript install.R`
 
 
-- **run.R** \
+- **run.R countmatrix annotation output [-s] [-n top]** \
 Contains all the pipeline. It needs three command arguments - count 
-matrix file name, table annotation file name and output directory name. 
+matrix file name **countmatrix**, table **annotation** file name and output directory name **output**.\
+Options:\
+**-s** allows to save extra information (see output)\
+**-n top** allows to set **top** number of genes in signature.\ 
 See output of run.R in output data paragraph of readme.\
 Imports functions from **source/DESeq.R**, **source/EBSeq.R**, 
 **source/edgeR.R**, **source/NOISeq.R**, **source/voom.R**, 
@@ -137,48 +141,6 @@ Imports functions from **source/DESeq.R**, **source/EBSeq.R**,
 **Example**: \
 `Rscript run.R data/TCGA_prostate_countmatrix.txt 
 data/annotation_TCGA_prostate.txt ouput`
-
-
-- **source/pipeline_parts/de_analysis.R**\
-Computes differential expression for all tools. Returns **'\*_res.rds'**
-files and **'\*_plot.pdf'** files. Imports functions from **source/DESeq.R**,
-**source/EBSeq.R**, **source/edgeR.R**, **source/NOISeq.R**, 
-**source/voom.R**.  It needs three command arguments - count 
-matrix file name, table annotation file name and output directory name. \
-**Example**: 
-`Rscript source/pipeline_parts/de_analysis.R data/TCGA_prostate_countmatrix.txt 
-data/annotation_TCGA_prostate.txt ouput`
-
-
-- **source/pipeline_parts/signatures_making.R**\
-Makes **'\*_sig.txt'** files using **'\*_res.rds'** files and chosen 
-signature. Imports functions from **source/signatures_utils.R**.
-It needs three command arguments - count matrix file name, table 
-annotation file name and output directory name. \
-**Example**: \
-`Rscript source/pipeline_parts/signatures_making.R data/TCGA_prostate_countmatrix.txt 
-data/annotation_TCGA_prostate.txt ouput`
-
-
-- **source/pipeline_parts/calculate_distmatrix.R**\
-Makes **'\*_sig.txt.distmatrix'** files using **'\*_sig.txt'** files. 
-Imports functions from **source/calculate_distmatrix_utils.R**
-It needs three command arguments - count matrix file name, table 
-annotation file name and output directory name.\
-**Example**: \
-`Rscript source/pipeline_parts/calculate_distmatrix.R data/TCGA_prostate_countmatrix.txt 
-data/annotation_TCGA_prostate.txt ouput`
-
-- **source/pipeline_parts/calculate_hobotnica.R**\
-Makes **'hobotnica_scores.txt'** file using **'\*_sig.txt.distmatrix'** 
-files. 
-Imports functions from **hobotnica/R/Hobotnica.R**
-It needs three command arguments - count matrix file name, table 
-annotation file name and output directory name.
-**Example**: 
-`Rscript source/pipeline_parts/calculate_distmatrix.R data/TCGA_prostate_countmatrix.txt 
-data/annotation_TCGA_prostate.txt ouput`
-
 
 Other files were not made for executing and contain functions for different parts of the pipelines.
 
