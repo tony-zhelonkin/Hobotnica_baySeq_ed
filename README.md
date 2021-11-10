@@ -153,6 +153,18 @@ Other files were not made for executing and contain functions for different part
 
 -------------------------------------------------------------------------
 
+Misc directory
+--------------
+Here one can find some convenience scripts:
+- **rundocker.sh**
+- **checkhobotnica.sh**
+
+The first executes R scripts in isolated docker container. Requires **input/annotation.txt** and **input/countmatrix.txt** in directory from which is called. Outputs folder **output** and writes logs to **Hobotnica.log**. Most recommended way is to call from **$HOME**
+
+The second one shows information about Hobotnica computation process in percent, according to logs in **$HOME/Hobotnica.log**
+
+
+
 Current problems
 ----------------
 - ***filtered_signature*** signature is unrepresentative. Perhaps every 
