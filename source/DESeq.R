@@ -54,7 +54,7 @@ deseq2_top <- function(results, n) {
     suppressMessages(library("DESeq2"))
     suppressMessages(library("biomaRt"))
 
-    # Filter results by logFC > 1 or logFC < -1
+    # Filter results by logFC > 0.25 or logFC < -0.25
     filtered_results <- results[!is.na(results$log2FoldChange) > 0 && abs(results$log2FoldChange) > 0.25, ]
 
     # Extract top-n differentially expressed genes ordered by p-value
