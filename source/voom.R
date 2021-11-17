@@ -69,7 +69,7 @@ voom_top <- function(results, n) {
     suppressMessages(library("biomaRt"))
 
     # Filter results by logFC > 1 or logFC < -1
-    filtered_results <- results[abs(results$logFC) > 1, ]
+    filtered_results <- results[!is.na(results$logFC) > 0 && abs(results$logFC) > 1, ]
 
     # Extract top-n differentially expressed genes ordered by p-value
     top <- head(filtered_results[order(filtered_results$P.Value), ], n)

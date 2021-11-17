@@ -121,6 +121,7 @@ draw_venn_diag <- function(out) {
     filename = NULL
     )
     grid.draw(venn_obj)
+    dev.off()
 }
 
 # Make a table view of venn diagram

@@ -123,28 +123,46 @@ loginfo('Save top genes crossing')
 crossing(out)
 loginfo('Saved')
 
-condition <- coldata$condition
 pdf(file.path(out, "heatmaps.pdf"))
 # Visualize using heat maps
+condition <- coldata$condition
 loginfo('Calculate heat maps for tools')
 source("source/calculate_distmatrix_utils.R")
 loginfo('Calculate DESeq heat map')
-deseq_distmat <- heatmap_v (count, "DESeq", condition, out)
+deseq_hm <- heatmap_v (count, "DESeq", condition, out)
 loginfo('DESeq heat map is done')
 loginfo('Calculate EBSeq heat map')
-ebseq_distmat <- heatmap_v (count, "EBSeq", condition, out)
+ebseq_hm <- heatmap_v (count, "EBSeq", condition, out)
 loginfo('EBSeq heat map is done')
 loginfo('Calculate edgeR heat map')
-edger_distmat <- heatmap_v (count, "edgeR", condition, out)
+edger_hm <- heatmap_v (count, "edgeR", condition, out)
 loginfo('edgeR heat map is done')
 loginfo('Calculate voom heat map')
-voom_distmat <- heatmap_v (count, "voom", condition, out)
+voom_hm <- heatmap_v (count, "voom", condition, out)
 loginfo('voom heat map is done')
 loginfo('Calculate NOISeq heat map')
-noiseq_distmat <- heatmap_v (count, "NOISeq", condition, out)
+noiseq_hm <- heatmap_v (count, "NOISeq", condition, out)
 loginfo('NOISeq heat map is done')
 loginfo('Heat maps for tools are made')
 dev.off()
+
+loginfo('Vizualize heat map')
+png(file.path(out, "DESeq_heatmap.png"))
+deseq_hm
+dev.off()
+png(file.path(out, "EBSeq_heatmap.png"))
+ebseq_hm
+dev.off()
+png(file.path(out, "edgeR_heatmap.png"))
+edger_hm
+dev.off()
+png(file.path(out, "voom_heatmap.png"))
+voom_hm
+dev.off()
+png(file.path(out, "NOISeq_heatmap.png"))
+noiseq_hm
+dev.off()
+loginfo('The end!')
 
 loginfo('Calculate distance matrices for tools')
 # Calculate dist matrices for tools

@@ -20,6 +20,10 @@ calculate_distmatrix <- function(countMatrixFile, signatureFile) {
 
 heatmap_v <- function(countMatrixFile, tool_name, condition, out) {
     signatureFile <- file.path(out, paste0(tool_name, "_sig.txt"))
+    if (file.info(signatureFile)$size == 0) {
+        cat(paste0('There is no gene in ', tool_name, ' for that signature\n'))
+        return()
+    }
     signature <- readLines(signatureFile)
     cm <- read.table(countMatrixFile, header=T, sep=",")
     cm <- read.table(count, header=T, sep=",")
@@ -38,6 +42,6 @@ heatmap_v <- function(countMatrixFile, tool_name, condition, out) {
 
     library('pheatmap')
     pheatmap(data_subset_norm, annotation_col = my_sample_col, annotation_names_col = FALSE, annotation_legend = TRUE,
-            annotation_names_row = FALSE, drop_levels = FALSE, show_rownames = T, show_colnames = F,
+            annotation_names_row = FALSE, main = paste0(tool_name, ' differential expression analysis'), drop_levels = FALSE, show_rownames = T, show_colnames = F,
             cluster_cols = F)
 }
