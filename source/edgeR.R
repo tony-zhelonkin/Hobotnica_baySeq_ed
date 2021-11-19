@@ -62,8 +62,8 @@ edger_top <- function(results, n) {
     suppressMessages(library("edgeR"))
     suppressMessages(library("biomaRt"))
 
-    # Filter results by logFC > 1 or logFC < -1
-    filtered_results <- results[!is.na(results$logFC) > 0 && abs(results$logFC) > 1, ]
+    # Filter results by logFC > 0.25 or logFC < -0.25
+    filtered_results <- results[!is.na(results$logFC) > 0 && abs(results$logFC) > 0.25, ]
 
     # Extract top-n differentially expressed genes ordered by p-value
     top <- head(filtered_results[order(filtered_results$PValue), ], n)
