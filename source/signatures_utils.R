@@ -159,4 +159,21 @@ best_crossing <- function(h_results, out) {
         ifelse(top4_cross, '+', '-'), ifelse(top5_cross, '+', '-'))
     colnames(cross_results) <- h_results$names
     write.csv(cross_results, file=file.path(out,"crossing_with_best.csv"), row.names = FALSE)
+    library(grid)
+    library(gridExtra)
+    library(gtable)
+    png(file.path(out, "crossing_with_best.png"), width = 670, height = 670)
+    table <- tableGrob(cross_results)
+    title <- textGrob("Intersection with the result of the best tool", gp = gpar(fontsize = 16))
+    padding <- unit(0.5,"line")
+    table <- gtable_add_rows(
+      table, heights = grobHeight(title) + padding, pos = 0
+    )
+    table <- gtable_add_grob(
+      table, list(title),
+      t = 1, l = 1, r = ncol(table)
+    )
+    grid.newpage()
+    grid.draw(table)
+    dev.off()
 }
