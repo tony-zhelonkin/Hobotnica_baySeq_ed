@@ -57,7 +57,7 @@ voom_v <- function(voom_res, out) {
             pCutoff = 10e-4,
             FCcutoff = 1.5,
             title = "limma-voom results",
-            subtitle = "Differential expression")
+            subtitle = "|log2FC| < 0.25, sorted by p-value")
     return(vis_res)
 }
 

@@ -44,7 +44,7 @@ deseq2_v <- function(deseq2_res, out) {
             pCutoff = 10e-4,
             FCcutoff = 3,
             title = "DESeq2 results",
-            subtitle = "Differential expression")
+            subtitle = "|log2FC| < 0.25, sorted by p-value")
     return(vis_res)
 }
 

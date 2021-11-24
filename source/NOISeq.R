@@ -47,6 +47,7 @@ noiseq_v <- function(noiseq_res, out) {
     plot(df$x, df$y, col = colors[df$group], pch = 16,
         ylim = c(0,10000),
         main="NOISeq results",
+        sub = "q > 0.8, sorted by probability",
         xlab="M", ylab="D")
     DEgplots <- data.frame(x = ifelse(xycond > 0.8, x, 0), y = ifelse(xycond > 0.8, y, 0),
         name = ifelse(xycond > 0.8, rownames(noiseq_res), ""))

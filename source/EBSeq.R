@@ -48,7 +48,8 @@ ebseq_v <- function(ebseq_res, out) {
     plot(df$x, df$y, col = colors[df$group], pch = 16,
         xlim =c(-5,5),
         ylim=c(0,1),
-        main="EBSeq results",
+        main= "EBSeq results",
+        sub = "sorted by PostFC",
         xlab="EBSeq Log2 Fold Change", ylab="EBSeq PPDE")
     DEgplots <- data.frame(x = ifelse((x < -xcond | x > xcond) & y > ycond, x, 0), y = ifelse((x < -xcond | x > xcond) & y > ycond , y, 0),
         name = ifelse((x < -xcond | x > xcond) & y > ycond , rownames(res), ""))

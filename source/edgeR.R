@@ -52,7 +52,7 @@ edger_v <- function(edger_res, out) {
             pCutoff = 10e-15,
             FCcutoff = 4,
             title = "edgeR results",
-            subtitle = "Differential expression")
+            subtitle = "|log2FC| < 0.25, sorted by p-value ")
     return(vis_res)
 }
 

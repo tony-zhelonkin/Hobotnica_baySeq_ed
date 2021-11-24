@@ -97,12 +97,31 @@ if (save_flag == 1) {
 
 
 # Visualize results of differential expression
-loginfo('Visualize results of differential expression')
+loginfo('Visualize results of differential expression into one pdf')
+deseq_de <- deseq2_v(deseq2_res, out)
+edger_de <- edger_v(edger_res, out)
+voom_de <- voom_v(voom_res, out)
 pdf(file.path(out, "de_plots.pdf"))
-deseq2_v(deseq2_res, out)
+deseq_de
 ebseq_v(ebseq_res, out)
-edger_v(edger_res, out)
-voom_v(voom_res, out)
+edger_de
+voom_de
+noiseq_v(noiseq_res, out)
+dev.off()
+loginfo('Vizualize results of differential expression into png')
+png(file.path(out, "DESeq_de.png"))
+deseq_de
+dev.off()
+png(file.path(out, "EBSeq_de.png"))
+ebseq_v(ebseq_res, out)
+dev.off()
+png(file.path(out, "edgeR_de.png"))
+edger_de
+dev.off()
+png(file.path(out, "voom_de.png"))
+voom_de
+dev.off()
+png(file.path(out, "NOISeq_de.png"))
 noiseq_v(noiseq_res, out)
 dev.off()
 loginfo('Visualization results of differential expression is done')
@@ -162,7 +181,7 @@ dev.off()
 png(file.path(out, "NOISeq_heatmap.png"))
 noiseq_hm
 dev.off()
-loginfo('The end!')
+loginfo('Heat map visualization is done')
 
 loginfo('Calculate distance matrices for tools')
 # Calculate dist matrices for tools
