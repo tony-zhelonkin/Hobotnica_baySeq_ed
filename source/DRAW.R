@@ -36,17 +36,25 @@ source("source/EBSeq.R")
 source("source/edgeR.R")
 source("source/voom.R")
 source("source/NOISeq.R")
+source("source/calculate_distmatrix_utils.R")
 
-h_results <- read.table(file=file.path(out, "hobotnica_scores.txt"), sep = " ", dec = ".")
-colnames(h_results) <- c("names", "scores")
-h_results <- h_results[order(h_results$scores, decreasing = TRUE), ]
-
-best_genes <- readLines(file.path(out,paste0(h_results$names[1], "_sig.txt")))
-top2_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[2], "_sig.txt")))
-top3_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[3], "_sig.txt")))
-top4_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[4], "_sig.txt")))
-top5_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[5], "_sig.txt")))
-cross_results <- data.frame(best_genes, ifelse(top2_cross, '+', '-'), ifelse(top3_cross, '+', '-'),
-    ifelse(top4_cross, '+', '-'), ifelse(top5_cross, '+', '-'))
-colnames(cross_results) <- h_results$names
-
+pdf(file.path(out, "heatmaps.pdf"))
+# Visualize using heat maps
+loginfo('Calculate heat maps for tools')
+loginfo('Calculate DESeq heat map')
+deseq_hm <- heatmap_v (count, "DESeq", condition, ', |log2FC| < 0.25, sorted by p-value', out)
+loginfo('DESeq heat map is done')
+loginfo('Calculate EBSeq heat map')
+ebseq_hm <- heatmap_v (count, "EBSeq", condition, ', sorted by PostFC', out)
+loginfo('EBSeq heat map is done')
+loginfo('Calculate edgeR heat map')
+edger_hm <- heatmap_v (count, "edgeR", condition, ', |log2FC| < 0.25, sorted by p-value', out)
+loginfo('edgeR heat map is done')
+loginfo('Calculate voom heat map')
+voom_hm <- heatmap_v (count, "voom", condition, ', |log2FC| < 0.25, sorted by p-value', out)
+loginfo('voom heat map is done')
+loginfo('Calculate NOISeq heat map')
+noiseq_hm <- heatmap_v (count, "NOISeq", condition, ', q > 0.8, sorted by probability', out)
+loginfo('NOISeq heat map is done')
+loginfo('Heat maps for tools are made')
+dev.off()

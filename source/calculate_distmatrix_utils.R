@@ -43,5 +43,5 @@ heatmap_v <- function(countMatrixFile, tool_name, condition, sorting_condition, 
     library('pheatmap')
     pheatmap(data_subset_norm, annotation_col = my_sample_col, annotation_names_col = FALSE, annotation_legend = TRUE,
             annotation_names_row = FALSE, main = paste0(tool_name, ' DE analysis', sorting_condition), drop_levels = FALSE, show_rownames = T, show_colnames = F,
-            cluster_cols = F)
+            cluster_cols = F, cutree_rows = 2)
 }
