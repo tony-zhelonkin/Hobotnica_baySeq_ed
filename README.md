@@ -39,7 +39,7 @@ Output data
 Program gives several files for each tool as output. They all are in 
 requested directory.
 
-**'de_plots.pdf'** file contains visualisation of differential expression analysis.
+**'de_plots.pdf'** and **'heatmaps.pdf'** file contains visualisation of differential expression analysis.
 Expressed genes are signed.
 
 **'\*_sig.txt'** files contain lists of subsets for each tool corresponding 
