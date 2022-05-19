@@ -1,11 +1,12 @@
 # Make a signature of top-n genes
-top_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq, n, out) {
+top_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq, results_bayseq, n, out) {
     # Import top-n creating functions
     suppressMessages(import::here(deseq2_top, .from = 'source/DESeq.R'))
     suppressMessages(import::here(ebseq_top, .from = 'source/EBSeq.R'))
     suppressMessages(import::here(edger_top, .from = 'source/edgeR.R'))
     suppressMessages(import::here(voom_top, .from = 'source/voom.R'))
     suppressMessages(import::here(noiseq_top, .from = 'source/NOISeq.R'))
+    suppressMessages(import::here(bayseq_top, .from = 'source/baySeq.R'))
 
     #Download results of different tools
     writeLines(deseq2_top(results_deseq2, n), file.path(out, "DESeq_sig.txt"))
@@ -13,16 +14,18 @@ top_signature <- function(results_deseq2, results_ebseq, results_edger, results_
     writeLines(edger_top(results_edger, n), file.path(out, "edgeR_sig.txt"))
     writeLines(voom_top(results_voom, n), file.path(out, "voom_sig.txt"))
     writeLines(noiseq_top(results_noiseq, n), file.path(out, "NOISeq_sig.txt"))
+    writeLines(bayseq_top(results_bayseq, n), file.path(out, "baySeq_sig.txt"))
 }
 
 # Make a signature of filtered genes
-filtered_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq, out) {
+filtered_signature <- function(results_deseq2, results_ebseq, results_edger, results_voom, results_noiseq, results_bayseq, out) {
     # Import filtered creating functions
     import::here(deseq2_filtered, .from = 'source/DESeq.R')
     import::here(ebseq_filtered, .from = 'source/EBSeq.R')
     import::here(edger_filtered, .from = 'source/edgeR.R')
     import::here(voom_filtered, .from = 'source/voom.R')
     import::here(noiseq_filtered, .from = 'source/NOISeq.R')
+    import::here(bayseq_filtered, .from = 'source/baySeq.R')
 
     #Download results of different tools
     writeLines(deseq2_filtered(results_deseq2), file.path(out, "DESeq_sig.txt"))
@@ -30,6 +33,7 @@ filtered_signature <- function(results_deseq2, results_ebseq, results_edger, res
     writeLines(edger_filtered(results_edger), file.path(out, "edgeR_sig.txt"))
     writeLines(voom_filtered(results_voom), file.path(out, "voom_sig.txt"))
     writeLines(noiseq_filtered(results_noiseq), file.path(out, "NOISeq_sig.txt"))
+    writeLines(bayseq_filtered(results_bayseq), file.path(out, "baySeq_sig.txt"))
 }
 
 
@@ -76,6 +80,13 @@ draw_venn_diag <- function(out) {
         sig_names <- c(sig_names, "NOISeq")
         number_of_elem <- number_of_elem + 1
     }
+    if (file.info(file.path(out, "baySeq_sig.txt"))$size == 0) {
+      cat('There is no gene in baySeq for that signature\n')
+    } else {
+      sig_vis [[length(sig_vis) + 1]] <- as.vector(unlist(read.delim(file = file.path(out, "baySeq_sig.txt"), header = FALSE)))
+      sig_names <- c(sig_names, "baySeq")
+      number_of_elem <- number_of_elem + 1
+    }
 
 
     suppressMessages(import::here(venn.diagram, .from = VennDiagram))
@@ -92,7 +103,9 @@ draw_venn_diag <- function(out) {
     pdf(file.path(out, "venn_diagram.pdf"))
     grid.newpage()
     futile.logger::flog.threshold(futile.logger::ERROR, name = "VennDiagramLogger")
-    if (number_of_elem == 5) {
+    if (number_of_elem == 6) {
+        pos_ = c(0, -30, -130, 130, 30, 180)
+    } else if (number_of_elem == 5) {
         pos_ = c(0, -30, -130, 130, 30)
     } else if (number_of_elem == 4) {
         pos_ = c(-15, 15, 0, 0)
@@ -132,18 +145,24 @@ crossing <- function(out) {
     edger_sig <- readLines(file.path(out,paste0("edgeR_sig.txt")))
     noiseq_sig <- readLines(file.path(out,paste0("NOISeq_sig.txt")))
     voom_sig <- readLines(file.path(out,paste0("voom_sig.txt")))
-    sigs <- unique(c(deseq_sig, ebseq_sig, edger_sig, noiseq_sig, voom_sig))
+    bayseq_sig <- readLines(file.path(out,paste0("baySeq_sig.txt")))
+    
+    sigs <- unique(c(deseq_sig, ebseq_sig, edger_sig, noiseq_sig, voom_sig, bayseq_sig))
     deseq_cross <- ifelse(sigs %in% deseq_sig, '+', '-')
     ebseq_cross <- ifelse(sigs %in% ebseq_sig, '+', '-')
     edger_cross <- ifelse(sigs %in% edger_sig, '+', '-')
     noiseq_cross <- ifelse(sigs %in% noiseq_sig, '+', '-')
     voom_cross <- ifelse(sigs %in% voom_sig, '+', '-')
+    bayseq_cross <- ifelse(sigs %in% bayseq_sig, '+', '-')
+    
     count_cross <- ifelse(deseq_cross == '+', 1, 0) + ifelse(ebseq_cross == '+', 1, 0) +
                     ifelse(edger_cross == '+', 1, 0) + ifelse(noiseq_cross == '+', 1, 0) +
-                    ifelse(voom_cross == '+', 1, 0)
+                    ifelse(voom_cross == '+', 1, 0) + ifelse(bayseq_cross == '+', 1, 0)
+    
     cross_results <- data.frame(deseq_cross, ebseq_cross, edger_cross,
-        noiseq_cross, voom_cross, count_cross)
-    colnames(cross_results) <- c("DESeq", "EBSeq", "edgeR", "NOISeq", "voom", "count")
+        noiseq_cross, voom_cross, bayseq_cross, count_cross)
+    
+    colnames(cross_results) <- c("DESeq", "EBSeq", "edgeR", "NOISeq", "voom", "baySeq","count")
     rownames(cross_results) <- sigs
     cross_results <- cross_results[order(cross_results$count, decreasing = TRUE), ]
     write.csv(cross_results, file=file.path(out,"crossing.csv"))
@@ -155,13 +174,16 @@ best_crossing <- function(h_results, out) {
     top3_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[3], "_sig.txt")))
     top4_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[4], "_sig.txt")))
     top5_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[5], "_sig.txt")))
+    top6_cross <- best_genes %in% readLines(file.path(out,paste0(h_results$names[6], "_sig.txt")))
     cross_results <- data.frame(best_genes, ifelse(top2_cross, '+', '-'), ifelse(top3_cross, '+', '-'),
-        ifelse(top4_cross, '+', '-'), ifelse(top5_cross, '+', '-'))
+        ifelse(top4_cross, '+', '-'), ifelse(top5_cross, '+', '-'), ifelse(top6_cross, '+', '-'))
     colnames(cross_results) <- h_results$names
     write.csv(cross_results, file=file.path(out,"crossing_with_best.csv"), row.names = FALSE)
+    
     library(grid)
     library(gridExtra)
     library(gtable)
+    
     png(file.path(out, "crossing_with_best.png"), width = 670, height = 670)
     table <- tableGrob(cross_results)
     title <- textGrob("Intersection with the result of the best tool", gp = gpar(fontsize = 16))

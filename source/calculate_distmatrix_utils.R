@@ -45,3 +45,37 @@ heatmap_v <- function(countMatrixFile, tool_name, condition, sorting_condition, 
             annotation_names_row = FALSE, main = paste0(tool_name, ' DE analysis', sorting_condition), drop_levels = FALSE, show_rownames = T, show_colnames = F,
             cluster_cols = F, cutree_rows = 2)
 }
+
+# Heatmap function duplicate with a crutch for correct baySeq heatmap
+heatmap_v_bay <- function(countMatrixFile, tool_name, condition, sorting_condition, out) {
+  signatureFile <- file.path(out, paste0(tool_name, "_sig.txt"))
+  if (file.info(signatureFile)$size == 0) {
+    cat(paste0('There is no gene in ', tool_name, ' for that signature\n'))
+    return()
+  }
+  signature <- readLines(signatureFile)
+  cm <- read.table(countMatrixFile, header=T, sep=",")
+  cm <- read.table(count, header=T, sep=",")
+  regroup <- c(sort(unique(names(cm))[1]), sort(unique(names(cm))[-1]))
+  
+  # this is a two-liner crutch for the heatmap to work correctly in baySeq
+  cm <- cm[, regroup]
+  cm <- data.frame(cm[, -1], row.names=cm[, 1])
+  # end of crutch
+  
+  cm_subset <- cm[signature, ]
+  my_sample_col <- data.frame(condition)
+  row.names(my_sample_col) <- colnames(cm_subset)
+  cm_subset <- cm_subset[, row.names(my_sample_col)]
+  cal_z_score <- function(x){
+    (x - min(x)) / (max(x) - min(x))
+    
+  }
+  
+  data_subset_norm <- t(apply(cm_subset, 1, cal_z_score))
+  
+  library('pheatmap')
+  pheatmap(data_subset_norm, annotation_col = my_sample_col, annotation_names_col = FALSE, annotation_legend = TRUE,
+           annotation_names_row = FALSE, main = paste0(tool_name, ' DE analysis', sorting_condition), drop_levels = FALSE, show_rownames = T, show_colnames = F,
+           cluster_cols = F, cutree_rows = 2)
+}

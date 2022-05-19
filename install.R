@@ -1,5 +1,5 @@
 install.packages(c('knitr', 'pheatmap', 'tidyverse', 'hexbin', 'doParallel', 'ggplot2', 'ggbeeswarm', 'ggrepel', 'import', 'logging', 'amap',
-'grid', 'gridExtra', 'gtable', 'futile.logger', 'labeling'), dependencies = TRUE)
+'grid', 'gridExtra', 'gtable', 'futile.logger', 'labeling','snow'), dependencies = TRUE)
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
@@ -18,3 +18,5 @@ BiocManager::install("biomaRt")
 BiocManager::install("VennDiagram")
 BiocManager::install("RColorBrewer")
 BiocManager::install("NOISeq")
+BiocManager::install("baySeq")
+
