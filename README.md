@@ -3,18 +3,30 @@ Comparing differential expression analysis tools with Hobotnica
 ---------------------------------------------------------------------------------------
 
 
-Version: 1.2
+Version: 1.2.baySeq_edition
 ------------
 
-General usage notes
+This is not original Hobotnica
 -------------------
-- Program computes and visualizes gene-level RNA-seq differential expression
-between two experimental conditions by 5 tools: DESeq, EBSeq, edgeR, 
-limma voom and NOISeq. 
-- Program also uses Hobotnica to compare results and calculate the best 
-differential expression tool for input data. It also visualizes intersection 
-of subsets.
+- This is not the originial Hobotnica tool repository. For the original repo please refer to 
+https://gitlab.at.ispras.ru/mirachirkova/differential-expression 
+- This version of Hobotnica is an edition of the original tool that was created as a 
+semester project in Bioinformatics institute 
 
+
+What`s the original Hobotnica for?
+-------------------
+- Original Hobotnica computes and visualizes gene-level RNA-seq differential expression 
+between two experimental conditions by 5 tools: DESeq, EBSeq, edgeR, 
+limma voom and NOISeq
+- Hobotnica also compares results and calculates the best 
+differential expression tool for input data. It also visualizes intersection 
+of subsets 
+
+What does this version add?
+-------------------
+- This eddition adds bayesian differential expression tool baySeq to the 
+already implemented 5 tools: DESeq, EBSeq, edgeR, limma voom and NOISeq
 ----------------------------------------------------------------
 Input data format
 -----------------
