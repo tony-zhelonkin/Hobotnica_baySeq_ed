@@ -51,7 +51,7 @@ the best tool from the results of all 6
 at https://gitlab.at.ispras.ru/mirachirkova/differential-expression hold
 for this version of Hobotnica entirely
 
-What does this version breake?
+What does this version break?
 -------------------
 - The original Hobotnica draws a Vienn diagramm of intersections between 
 the 5 implemented DE tools 
