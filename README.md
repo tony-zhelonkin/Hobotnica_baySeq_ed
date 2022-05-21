@@ -151,24 +151,22 @@ Options:\
 See output of run.R in output data paragraph of readme.\
 Imports functions from **source/DESeq.R**, **source/EBSeq.R**, 
 **source/edgeR.R**, **source/NOISeq.R**, **source/voom.R**, 
-**source/signatures_utils.R**, **source/calculate_distmatrix_utils.R** \
-**Example**: \
-`Rscript run.R data/TCGA_prostate_countmatrix.txt 
-data/annotation_TCGA_prostate.txt ouput`
+**source/signatures_utils.R**, **source/calculate_distmatrix_utils.R**, 
+**source/baySeq.R** (added in this version) \
 
 Other files were not made for executing and contain functions for different parts of the pipelines.
 
--------------------------------------------------------------------------
 
-Misc directory
---------------
-Here one can find some convenience scripts:
-- **rundocker.sh**
-- **checkhobotnica.sh**
+----------------------------------------------------------------
+Contribution to the original Hobotnica source code
+-----------------
+**'source/baySeq.R'** is an entirely new script with all baySeq analysis and volcano-plot visualisations 
+**'run.R'** several lines of code added to implement baySeq under Hobotnica`s pipeline 
+**source/signatures_utils.R** added code to extract top differentially expressed genes from baySeq, 
+created a duplicate heatmap function for the visualisation of baySeq results 
+Venn diagram is disabled until further notice
 
-The first executes R scripts in isolated docker container. Requires **input/annotation.txt** and **input/countmatrix.txt** in directory from which is called. Outputs folder **output** and writes logs to **Hobotnica.log**. Most recommended way is to call from **$HOME**
-
-The second one shows information about Hobotnica computation process in percent, according to logs in **$HOME/Hobotnica.log**
+----------------------------------------------------------------
 
 
 
