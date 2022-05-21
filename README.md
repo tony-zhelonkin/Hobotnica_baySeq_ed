@@ -187,7 +187,8 @@ on top differentially expressed genes identified with other DE tools
 ![](https://github.com/tony-zhelonkin/Hobotnica_baySeq_ed/blob/main/signature_vis) 
 
 Accoring to the result of the Hobotnica analysis limma-voom seems to be the tool of choice 
-in DE analysis of RNA-seq macrophage data
+in DE analysis of RNA-seq macrophage data 
+
 ![](https://github.com/tony-zhelonkin/Hobotnica_baySeq_ed/blob/main/h_scores.png) 
 
 ----------------------------------------------------------------
