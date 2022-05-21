@@ -55,8 +55,8 @@ What does this version break?
 -------------------
 - The original Hobotnica draws a Vienn diagramm of intersections between 
 the 5 implemented DE tools 
-- This version breakes the Vienn diagramm. For the purpose of smooth run 
-the code for Vienn diagram was silenced 
+- This version breakes the Venn diagramm. For the purpose of smooth run 
+the code for Venn diagram was silenced 
 
 ----------------------------------------------------------------
 Pipeline
