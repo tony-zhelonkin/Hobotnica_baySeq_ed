@@ -1,4 +1,4 @@
-Comparing differential expression analysis tools with Hobotnica
+Differential expression analysis of macrophage RNA sequencing data using the Hobotnica tool
 --------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 
