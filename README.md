@@ -58,6 +58,12 @@ the 5 implemented DE tools
 - This version breakes the Vienn diagramm. For the purpose of smooth run 
 the code for Vienn diagram was silenced 
 
+----------------------------------------------------------------
+Pipeline
+-----------------
+
+![](https://github.com/tony-zhelonkin/Hobotnica_baySeq_ed/blob/main/Hobotnica_baySeq_ed.png)
+
 
 Input data format
 -----------------
