@@ -55,7 +55,7 @@ What does this version break?
 -------------------
 - The original Hobotnica draws a Venn diagramm of intersections between 
 the 5 implemented DE tools 
-- This version breakes the Venn diagramm. For the purpose of smooth run 
+- This version breaks the Venn diagramm. For the purpose of smooth run 
 the code for Venn diagram was silenced 
 
 ----------------------------------------------------------------
