@@ -179,7 +179,7 @@ created a duplicate heatmap function for the visualisation of baySeq results
 Perspectives
 ----------------
 - Add more DE tools into Hobotnica
-- Add a new features: comparing DE tools run on simulated counts data, etc.
+- Add new features: comparing DE tools run on simulated counts data, etc.
 - Validate the results with RT-PCR, proteomics analysis data
 
 
