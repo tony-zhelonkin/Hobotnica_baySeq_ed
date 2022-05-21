@@ -181,7 +181,14 @@ Results of RNA-seq macrophages data using Hobotnica
 Results of DE tools comparison using Hobotnica expose current problems of existing software in DE analysis. 
 Although the phenotypic variation under the experiment is obvious, the pattern itself is variable. 
 Each tool has its own specificities in the assumptions on the statistical properties inherent to RNA-seq data. 
-No consensus as of today exists on the subject. 
+No consensus as of today exists on the subject. In our case there almost no intersections with the best tool 
+on top differentially expressed genes identified with other DE tools 
+
+![](https://github.com/tony-zhelonkin/Hobotnica_baySeq_ed/blob/main/signature_vis) 
+
+Accoring to the result of the Hobotnica analysis limma-voom seems to be the tool of choice 
+in DE analysis of RNA-seq macrophage data
+![](https://github.com/tony-zhelonkin/Hobotnica_baySeq_ed/blob/main/h_scores.png) 
 
 ----------------------------------------------------------------
 
