@@ -59,13 +59,13 @@ the 5 implemented DE tools
 the code for Venn diagram was silenced 
 
 ----------------------------------------------------------------
-Pipeline
+Pipeline of the project
 -----------------
 
 ![](https://github.com/tony-zhelonkin/Hobotnica_baySeq_ed/blob/main/Hobotnica_baySeq_ed.png)
 
 
-Input data format
+Input data format for Hobotnica
 -----------------
 Hobotnica uses matrix of un-normalized counts, table of annotation for 
 each sample and name of directory for output. An example of the input 
@@ -118,7 +118,7 @@ want to write their own R code with that results. Files names are
 
 ---------------------------------------------------------------------------
 
-Quick start
+Hobotnica quick start guide
 ------------
 The easiest pathway is described here 
 1. Download repository 
@@ -143,7 +143,8 @@ Source files description
 -----------------
 
 - **install.R** \
-Installs all required R packages.\
+Installs all required R packages, including `baySeq` and `snow`, 
+which is required for parallel computations during bayesian analysis.\
 **Example**: 
 `Rscript install.R`
 
