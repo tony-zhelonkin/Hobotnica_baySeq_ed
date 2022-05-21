@@ -178,6 +178,9 @@ Results of RNA-seq macrophages data using Hobotnica
 -----------------
 ![](https://github.com/tony-zhelonkin/Hobotnica_baySeq_ed/blob/main/hobotnica_mf)
 
+Results of DE tools comparison expose current problems of existing solution to DE analysis. 
+Each tool has its own specificities in the assumptions on the statistical properties inherent to RNA-seq data. 
+No consensus as of today exists on the subject. 
 ----------------------------------------------------------------
 
 Perspectives
