@@ -180,7 +180,7 @@ Results of RNA-seq macrophages data using Hobotnica
 ![](https://github.com/tony-zhelonkin/Hobotnica_baySeq_ed/blob/main/hobotnica_mf)
 
 Although the phenotypic variation under the experiment is obvious, the pattern itself is variable. 
-In our case there almost no intersections with the best tool 
+In our case there were almost no intersections with the best tool 
 on top differentially expressed genes identified with other DE tools 
 
 ![](https://github.com/tony-zhelonkin/Hobotnica_baySeq_ed/blob/main/signature_vis) 
