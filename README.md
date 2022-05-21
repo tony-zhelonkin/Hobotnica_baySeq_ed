@@ -30,7 +30,6 @@ of subsets
 Aim of the project
 -----------------
 Find the best tool for DE analysis of RNA-seq macrophages data
-----------------------------------------------------------------
 
 ----------------------------------------------------------------
 Objectives
