@@ -160,11 +160,11 @@ Other files were not made for executing and contain functions for different part
 ----------------------------------------------------------------
 Contribution to the original Hobotnica source code
 -----------------
-**'source/baySeq.R'** is an entirely new script with all baySeq analysis and volcano-plot visualisations 
-**'run.R'** several lines of code added to implement baySeq under Hobotnica`s pipeline 
-**source/signatures_utils.R** added code to extract top differentially expressed genes from baySeq, 
+- **'source/baySeq.R'** is an entirely new script with all baySeq analysis and volcano-plot visualisations 
+- **'run.R'** several lines of code added to implement baySeq under Hobotnica`s pipeline 
+- **source/signatures_utils.R** added code to extract top differentially expressed genes from baySeq, 
 created a duplicate heatmap function for the visualisation of baySeq results 
-Venn diagram is disabled until further notice
+- Venn diagram is disabled until further notice
 
 ----------------------------------------------------------------
 
