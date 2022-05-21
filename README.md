@@ -8,8 +8,11 @@ Version: 1.2.baySeq_edition
 
 This is not original Hobotnica
 -------------------
-- This is not the originial Hobotnica tool repository. For the original repo please refer to 
+- This is not the originial Hobotnica tool repository. For the original repo 
+and all the instructions on installation and use please refer to 
 https://gitlab.at.ispras.ru/mirachirkova/differential-expression 
+- The original paper explaining Hobotnica`s maths guts can be found here 
+https://f1000research.com/articles/10-1260 
 - This version of Hobotnica is an edition of the original tool that was created as a 
 semester project in Bioinformatics Institute, Saint-Petersburg, Russia
 
@@ -23,31 +26,51 @@ limma voom and NOISeq
 differential expression tool for input data. It also visualizes intersection 
 of subsets 
 
+----------------------------------------------------------------
+Aim of the project
+-----------------
+Find the best tool for DE analysis of RNA-seq macrophages data
+----------------------------------------------------------------
+
+----------------------------------------------------------------
+Objectives
+-----------------
+- Add additional DE tools into Hobotnica docker container: baySeq, DEGseq
+- Compare results from different differential expression analysis tools inside Hobotnica
+ 
+----------------------------------------------------------------
+
 What does this version add?
 -------------------
 - This eddition adds bayesian differential expression tool baySeq to the 
 already implemented 5 tools: DESeq, EBSeq, edgeR, limma voom and NOISeq
 - Visualises the volcano-plot, heatmap based on the results of the baySeq 
-- Original Hobotnica guts  compare baySeq results between the other 5 differential 
+- Original Hobotnica guts compare baySeq results with the other 5 differential 
 expression tools, outputs all the visalisations for the rest of them and calculates 
 the best tool from the results of all 6 
-----------------------------------------------------------------
+- All the instructions on the installation and use from the original repo 
+at https://gitlab.at.ispras.ru/mirachirkova/differential-expression hold
+for this version of Hobotnica entirely
+
+What does this version breake?
+-------------------
+- The original Hobotnica draws a Vienn diagramm of intersections between 
+the 5 implemented DE tools 
+- This version breakes the Vienn diagramm. For the purpose of smooth run 
+the code for Vienn diagram was silenced 
+
+
 Input data format
 -----------------
-Program uses matrix of un-normalized counts, table of annotation for 
-each sample and name of directory for output.
-
-The value in the i-th row and the j-th column of the count matrix tells 
-how many reads (or fragments, for paired-end RNA-seq) can be assigned to 
-gene i in sample j. Separator for values of matrix elements is ','. First 
-column has no name. You can see an example in 
-**'data/TCGA_prostate_countmatrix.txt'** file.
-
-Table of annotation contains the sample name in the first column and 
-the condition in the second. Separator for values of tables elements is ','.
-Columns have names '0' and '1'. You can see an example in 
-**'data/annotation_TCGA_prostate.txt'** file.
-
+Hobotnica uses matrix of un-normalized counts, table of annotation for 
+each sample and name of directory for output. An example of the input 
+format may be found in the data folder. The data folder contains 
+prepared un-normalised reads from RNA-seq experiment on M0 and M1 macrophages (**'RNA_macrophages_reads.txt'**) 
+and annotation table (**'annotation_for_macrophages.txt'**) 
+The unprepaired reads are available at 
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE163165 
+The R script written to prepare the aforementioned reads may be found in the data folder 
+under the name **'reads_preparation.Rmd'** 
 
 -----------------------------------------------------------------------------
 Output data
@@ -55,16 +78,13 @@ Output data
 Program gives several files for each tool as output. They all are in 
 requested directory.
 
-**'de_plots.pdf'** and **'heatmaps.pdf'** file contains visualisation of differential expression analysis.
+**'de_plots.pdf'** and **'heatmaps.pdf'** file contains visualisation of 6 differential expression analysis.
 Expressed genes are signed.
 
 **'\*_sig.txt'** files contain lists of subsets for each tool corresponding 
 chosen signature. Default signature is top-30 most expressed genes. You can manually change it by set "-n" option in run.R. Files 
 names are **'DESeq_sig.txt'**, **'EBSeq_sig.txt'**, **'edgeR_sig.txt'**,
-**'NOISeq_sig.txt'** and **'voom_sig.txt'**.
-
-Program also plots Venn diagram that shows intersection of different tools 
-subsets. File name is **'venn_diagram.pdf'**.
+**'NOISeq_sig.txt'**, **'voom_sig.txt'** and **'baySeq_sig.txt'** (added in this version) 
 
 File **'crossing.csv'** contains table with information which tool count this gene as expressed.
  
@@ -73,72 +93,44 @@ for each tool.
 
 File **'crossing_with_best.csv'** contains results of the best tool and its intersection with other tools results.  
 
+The Venn diagramm functionality is disabled in this version.
+
+
 Using "-s" option in run.R you can save this files:
 
 - **'\*_res.rds'** files contain differential expression analysis results. They 
 are different for each tool and might be of interest only for users who 
 want to write their own R code with that results. Files names are 
 **'DESeq_res.rds'**, **'EBSeq_res.rds'**, **'edgeR_res.rds'**, 
-**'NOISeq_res.rds'** and **'voom_res.rds'**.
+**'NOISeq_res.rds'**, **'voom_res.rds'** and **'baySeq_res.rds'**.
 
 - **'\*_sig.txt.distmatrix'** files contain distance matrixes for each 
 **'\*_sig.txt'** subset. Matrixes are ready to be used in Hobotnica. Files names are 
 **'DESeq_sig.txt.distmatrix'**, **'EBSeq_sig.txt.distmatrix'**, 
-**'edgeR_sig.txt.distmatrix'**, **'NOISeq_sig.txt.distmatrix'** and 
-**'voom_sig.txt.distmatrix'**.
-
+**'edgeR_sig.txt.distmatrix'**, **'NOISeq_sig.txt.distmatrix'**, 
+**'voom_sig.txt.distmatrix'** and **'baySeq_sig.txt.distmatrix'**.
 
 
 ---------------------------------------------------------------------------
 
 Quick start
 ------------
-Download repository and change to the directory where this repository 
-is stored. There are to ways to run program.
-- **From your computer**
-
-Type in command line this commands:
-
+The easiest pathway is described here 
+1. Download repository 
+2. Move via terminal into the directory of the downloaded repo 
+3. Type in commandline the following lines to install all the necessary files and libraries
 > **$ Rscript install.R**
-> 
+4. To run the analysis type in the commandline
 > **$ Rscript run.R countmatrix annotation output** 
 
 Where **countmatrix** is matrix of un-normalized counts file name and 
 **annotation** is table of annotation file name. **output** is a name
-of directory for results.
+of directory for results. 
+The **countmatrix** and **annotation** do not have to be in the same folder with the Hobotnica insides 
+The analysis runs smoothly if you explicitly configure the path to the necessary files and the output folder
+> **$ Rscript run.R /*your_path*/countmatrix.txt /*your_path*/annotation.txt /*your_path*/output** 
 
-- **From Docker**
-
-Create an image **diffexprimage** and start container **de_container**
-(it automatically uses Dockerfile from repository):
-> **$ docker build -t diffexprimage .**
-> 
-> **$ docker run -it --name de_container diffexprimage /bin/bash"**
->
->**# exit**
->
-Copy your input data to container. **countmatrix.txt** is matrix of 
-un-normalized counts file name and **annotation.txt** is table of 
-annotation file name.
-> 
-> **$ docker cp countmatrix.txt de_container:data/countmatrix.txt**
-> 
-> **$ docker cp annotation.txt de_container:data/annotation.txt**
->
-Start work in container.
-> **$ docker start de_container**
-> 
-> **$ docker exec -it de_container /bin/bash**
-> 
-Start work with program from Docker container.
-> **/# Rscript run.R data/countmatrix.txt data/annotation.txt output**
->
-where **output** is a name of directory for results.
-
-Copy output to your computer.
->**docker cp de_container:output computer_output**
->
-where **computer_output** is a directory for results.
+Detailed instructions on use and run from Docker are desribed at https://gitlab.at.ispras.ru/mirachirkova/differential-expression
 
 -------------------------------------
 
@@ -181,11 +173,11 @@ The second one shows information about Hobotnica computation process in percent,
 
 
 
-Current problems
+Perspectives
 ----------------
-- ***filtered_signature*** signature is unrepresentative. Perhaps every 
-tool has their own sensitiveness for logFC, p-value etc.
-- Probably need to add some other features.
+- Add more DE tools into Hobotnica
+- Add a feature of comparing DE tools run on simulated counts data
+- Validate the results with RT-PCR, proteomics analysis data
 
 
 
