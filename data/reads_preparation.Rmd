@@ -1,0 +1,126 @@
+---
+title: "Hobotnica_matrix_prep"
+author: "Anton Zhelonkin"
+date: "3/21/2022"
+output: html_document
+---
+
+## Data preparation
+Load data 
+```{r}
+control1 <- read.table(file = '/path/GSE163165_RAW/GSM4973752_1K_merged_gene_counts.txt',
+                       sep = "\t", header = T)
+lps1 <- read.table(file = '/path/GSE163165_RAW/GSM4973753_2K_merged_gene_counts.txt',
+                   sep = "\t", header = T)
+control2 <- read.table(file = '/path/GSE163165_RAW/GSM4973754_3K_merged_gene_counts.txt',
+                       sep = "\t", header = T)
+lps2 <- read.table(file = '/path/GSE163165_RAW/GSM4973755_4K_merged_gene_counts.txt',
+                    sep = "\t", header = T)
+control3 <- read.table(file = '/path//GSE163165_RAW/GSM4973756_5K_merged_gene_counts.txt',
+                        sep = "\t", header = T)
+lps3 <- read.table(file = '/path/GSE163165_RAW/GSM4973757_6K_merged_gene_counts.txt',
+                    sep = "\t", header = T)
+```
+
+Checking the structure
+```{r}
+str(control1)
+str(lps1)
+```
+
+
+Checking order
+```{r}
+all(control1 == lps1)
+all(control2 == lps2)
+all(control3 == lps3)
+all(control1 == control2)
+```
+Length of columns
+
+```{r}
+length(control1$gene_name)
+length(control2$gene_name)
+length(control3$gene_name)
+length(lps1$gene_name)
+length(lps2$gene_name)
+length(lps3$gene_name)
+```
+
+### Matrix preparation
+Creating matrix  
+                sample_1 ... sample_m  
+gene_1  
+gene_2  
+....  
+gene_n  
+ 
+Merging columns onto matrix
+```{r}
+data_merge <- merge(control1, control2, by = c("Geneid", "gene_name") ) 
+data_merge <- merge(data_merge, control3, by = c("Geneid", "gene_name") ) 
+data_merge <- merge(data_merge, lps1, by = c("Geneid", "gene_name") ) 
+data_merge <- merge(data_merge, lps2, by = c("Geneid", "gene_name") ) 
+data_merge <- merge(data_merge, lps3, by = c("Geneid", "gene_name") ) 
+head(data_merge)
+```
+
+ИNaming columns
+```{r}
+names(data_merge) <- c("gene_id", "gene_name", 
+                       "control1", "control2",
+                       "control3", "lps1",
+                       "lps2", "lps3")
+```
+
+Checking structure
+```{r}
+str(data_merge)
+```
+
+## Cleaning dataframe to preapare analysis-ready matrix
+```{r}
+head(data_merge)
+```
+```{r}
+expression_matrix <- data_merge[ , 2:8]
+str(expression_matrix)
+```
+Deleting gene duplicates
+```{r}
+matrix_dupl_deleted = expression_matrix[!duplicated(expression_matrix$gene_name),]
+matrix_dupl_deleted
+length(expression_matrix$gene_name) - length(matrix_dupl_deleted$gene_name)
+```
+
+### Creating DE annotation of the experiment
+Creating vectors
+```{r}
+sample_names_0 <- c("control1", "control2",
+                    "control3", "lps1",
+                    "lps2", "lps3")
+
+condition_names_1 <- c("control", "control",
+                    "control", "lps",
+                    "lps", "lps")
+```
+
+Gatheting annotation
+```{r}
+annotation <- data.frame(sample_names_0, condition_names_1)
+names(annotation) <- c(0, 1)
+annotation
+```
+
+Сохраняю матрицу экспрессии
+```{r}
+write.table(file = "/path/matrix", x =  matrix_dupl_deleted, sep=",",  col.names=T)
+```
+
+Сохраняю аннотацию
+```{r}
+write.table(file = "/path/annotation", x =  annotation, sep=",",  col.names=T)
+```
+
+
+
