@@ -174,7 +174,11 @@ created a duplicate heatmap function for the visualisation of baySeq results
 
 ----------------------------------------------------------------
 
+Results of RNA-seq macrophages data using Hobotnica
+-----------------
+![](https://github.com/tony-zhelonkin/Hobotnica_baySeq_ed/blob/main/hobotnica_mf)
 
+----------------------------------------------------------------
 
 Perspectives
 ----------------
