@@ -53,7 +53,7 @@ for this version of Hobotnica entirely
 
 What does this version break?
 -------------------
-- The original Hobotnica draws a Vienn diagramm of intersections between 
+- The original Hobotnica draws a Venn diagramm of intersections between 
 the 5 implemented DE tools 
 - This version breakes the Venn diagramm. For the purpose of smooth run 
 the code for Venn diagram was silenced 
