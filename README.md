@@ -11,10 +11,10 @@ This is not original Hobotnica
 - This is not the originial Hobotnica tool repository. For the original repo please refer to 
 https://gitlab.at.ispras.ru/mirachirkova/differential-expression 
 - This version of Hobotnica is an edition of the original tool that was created as a 
-semester project in Bioinformatics institute 
+semester project in Bioinformatics Institute, Saint-Petersburg, Russia
 
 
-What`s the original Hobotnica for?
+What`s the original Hobotnica used for?
 -------------------
 - Original Hobotnica computes and visualizes gene-level RNA-seq differential expression 
 between two experimental conditions by 5 tools: DESeq, EBSeq, edgeR, 
@@ -27,6 +27,10 @@ What does this version add?
 -------------------
 - This eddition adds bayesian differential expression tool baySeq to the 
 already implemented 5 tools: DESeq, EBSeq, edgeR, limma voom and NOISeq
+- Visualises the volcano-plot, heatmap based on the results of the baySeq 
+- Original Hobotnica guts  compare baySeq results between the other 5 differential 
+expression tools, outputs all the visalisations for the rest of them and calculates 
+the best tool from the results of all 6 
 ----------------------------------------------------------------
 Input data format
 -----------------
