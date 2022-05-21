@@ -15,7 +15,7 @@ bayseq_f <- function(counts, coldata) {
     regroup <- c(sort(unique(names(counts))[1]), sort(unique(names(counts))[-1]))
     
    
-    counts <- counts[, regroup] # пересортирую порядок колонок
+    counts <- counts[, regroup] # reorder groups
     
     replicates <- coldata$condition
     
@@ -28,7 +28,7 @@ bayseq_f <- function(counts, coldata) {
     exp_list <- rep(x = unique(replicates)[2], times = n_exp) # number of experimental replicates
     
     # Create grouping variable
-    groups <- list(NDE = c(ref_list, ref_list), DE = c(ref_list, exp_list)) # NDE = apriori distribution, DE - aposteriori
+    groups <- list(NDE = c(ref_list, ref_list), DE = c(ref_list, exp_list)) # NDE = prior distribution, DE - posterior 
     
     cname <- rownames(counts) # gene names
     
@@ -59,12 +59,13 @@ bayseq_f <- function(counts, coldata) {
     fold_frame <- cbind(cname, log2FoldChange)
     fold_frame <- as.data.frame(fold_frame)
     
+    # Preparing final results
     bay_res <- merge.data.frame(x = bay_res, y = fold_frame, by.y = "cname")
     bay_res$log2FoldChange <- as.numeric(bay_res$log2FoldChange)
     bay_res <- bay_res[order(bay_res$FDR.DE), ] # sort by FDR
     rownames(bay_res) <- bay_res$cname
     
-    # substitute Inf with NA 
+    # substitute Inf with NA to make a volcano plot
     bay_res <- do.call(data_frame, lapply(bay_res, function(x) replace(x, is.infinite(x),NA)))
     
     
