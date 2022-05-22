@@ -45,7 +45,7 @@ What does this version add?
 already implemented 5 tools: DESeq, EBSeq, edgeR, limma voom and NOISeq
 - Visualises the volcano-plot, heatmap based on the results of the baySeq 
 - Original Hobotnica guts compare baySeq results with the other 5 differential 
-expression tools, outputs all the visalisations for the rest of them and calculates 
+expression tools, outputs all the visualisations for the rest of them and calculates 
 the best tool from the results of all 6 
 - All the instructions on the installation and use from the original repo 
 at https://gitlab.at.ispras.ru/mirachirkova/differential-expression hold
