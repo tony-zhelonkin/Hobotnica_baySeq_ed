@@ -7,7 +7,7 @@ bayseq_f <- function(counts, coldata) {
     suppressMessages(library(tximeta))
     suppressMessages(library(SummarizedExperiment))
     suppressMessages(library(baySeq))
-    suppressMessages(library(snow))
+    suppressMessages(library(snow)) # parallel computations
     
     
     # Prepare data
@@ -43,8 +43,8 @@ bayseq_f <- function(counts, coldata) {
     
     cl <- makeCluster(8, "SOCK") # create a cluster of parallel computation with snow library
     
-    CD <- getPriors.NB(CD, samplesize = 10000, estimation = "QL", cl = cl) # create apriori distribution
-    CD <- getLikelihoods(CD, pET = 'BIC', cl = cl) # aposteriori distribution
+    CD <- getPriors.NB(CD, samplesize = 10000, estimation = "QL", cl = cl) # calculate prior distribution
+    CD <- getLikelihoods(CD, pET = 'BIC', cl = cl) # calculate posterior distribution likelihoods
     
     bay_res <- topCounts(CD, group="DE", number = length(cname)) # all baySeq statistics
     
