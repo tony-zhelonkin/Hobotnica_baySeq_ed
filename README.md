@@ -6,15 +6,23 @@ Differential expression analysis of macrophage RNA sequencing data using the Hob
 Version: 1.2.baySeq_edition
 ------------
 
-This is not original Hobotnica
+This is not the original Hobotnica
 -------------------
 - This is not the originial Hobotnica tool repository. For the original repo 
 and all the instructions on installation and use please refer to 
 https://gitlab.at.ispras.ru/mirachirkova/differential-expression 
 - The original paper explaining Hobotnica`s maths guts can be found here 
 https://f1000research.com/articles/10-1260 
-- This version of Hobotnica is an edition of the original tool that was created as a 
-semester project in Bioinformatics Institute, Saint-Petersburg, Russia
+
+This version of Hobotnica is an edition of the original tool that was created as a 
+semester project in [Bioinformatics Institute](https://bioinf.me/en), Saint-Petersburg, Russia 
+
+Supervisors: 
+- Evgeny Karpulevich
+
+Students:
+- Anton Zhelonkin [@tony-zhelonkin](https://github.com/tony-zhelonkin)
+- Alexandra Belyaeva [@BelyaevaAlex](https://github.com/BelyaevaAlex)
 
 
 What`s the original Hobotnica used for?
