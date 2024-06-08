@@ -56,7 +56,7 @@ already implemented 5 tools: DESeq, EBSeq, edgeR, limma voom and NOISeq
 expression tools, outputs all the visualisations for the rest of them and calculates 
 the best tool from the results of all 6 
 - All the instructions on the installation and use from the original repo 
-at https://gitlab.at.ispras.ru/mirachirkova/differential-expression hold
+at https://gitlab.at.ispras.ru/mirachirkova/differential-expression hold true
 for this version of Hobotnica entirely
 
 What does this version break?
